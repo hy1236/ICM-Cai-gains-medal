@@ -1,0 +1,77 @@
+\contentsline {section}{\numberline {1}引言：衡量业务交接的可靠性}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}业务问题}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}任务与证据边界}{3}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}方法选择依据}{3}{subsection.1.3}%
+\contentsline {section}{\numberline {2}假设、符号与信息传递}{3}{section.2}%
+\contentsline {section}{\numberline {3}数据准备与指标筛选}{4}{section.3}%
+\contentsline {subsection}{\numberline {3.1}指标字典与覆盖筛选模型}{4}{subsection.3.1}%
+\contentsline {paragraph}{Step 1: 编码需求}{4}{equation.1}%
+\contentsline {paragraph}{Step 2: 枚举与筛选}{5}{equation.1}%
+\contentsline {paragraph}{Step 3: 选优并扰动成本}{5}{equation.1}%
+\contentsline {subsection}{\numberline {3.2}数据采集协议与保密设计}{5}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}事件清单与保密设计}{5}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}分层人工核验}{5}{subsubsection.3.2.2}%
+\contentsline {paragraph}{Step 1: 计算分层权重}{5}{subsubsection.3.2.2}%
+\contentsline {paragraph}{Step 2: 汇总通过率}{5}{equation.2}%
+\contentsline {paragraph}{Step 3: 计算抽样方差}{5}{equation.3}%
+\contentsline {subsection}{\numberline {3.3}清洗、缺失处理与审计}{6}{subsection.3.3}%
+\contentsline {paragraph}{缺失数据边界。}{6}{Item.14}%
+\contentsline {section}{\numberline {4}模型一：含滞后的能力滤波模型（LCF）}{6}{section.4}%
+\contentsline {subsection}{\numberline {4.1}提出动因与设计逻辑}{6}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}模型构建：状态与观测}{6}{subsection.4.2}%
+\contentsline {paragraph}{Step 1: 计算滞后有效行动量}{6}{equation.6}%
+\contentsline {paragraph}{Step 2: 更新潜在能力}{7}{equation.7}%
+\contentsline {subsection}{\numberline {4.3}算法设计与分步计算}{7}{subsection.4.3}%
+\contentsline {subsubsection}{\numberline {4.3.1}Step 1：构造观测量及其方差}{7}{subsubsection.4.3.1}%
+\contentsline {subsubsection}{\numberline {4.3.2}Step 2：计算先验状态}{7}{subsubsection.4.3.2}%
+\contentsline {subsubsection}{\numberline {4.3.3}Step 3：更新状态并输出能力}{7}{subsubsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.4}结果分析：同一测试期的模型对比}{8}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}性能讨论与局限性分析}{8}{subsection.4.5}%
+\contentsline {section}{\numberline {5}模型二：业务链可靠性成熟度模型（CRM）}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}提出动因与设计逻辑}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}模型构建与评分定义}{9}{subsection.5.2}%
+\contentsline {paragraph}{参考分与运营分。}{9}{equation.18}%
+\contentsline {subsection}{\numberline {5.3}算法设计与分步计算}{9}{subsection.5.3}%
+\contentsline {paragraph}{Step 1: 构造特征并划分样本}{9}{subsection.5.3}%
+\contentsline {paragraph}{Step 2: 拟合约束响应}{9}{subsection.5.3}%
+\contentsline {paragraph}{Step 3: 选择参数、冻结模型并评价}{9}{equation.20}%
+\contentsline {paragraph}{Step 4: 传递不确定性}{10}{equation.20}%
+\contentsline {subsection}{\numberline {5.4}结果分析：可靠性对比与可视化}{10}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}性能讨论与不确定性边界}{10}{subsection.5.5}%
+\contentsline {section}{\numberline {6}模型三：稳健改进项目组合（RIP）}{11}{section.6}%
+\contentsline {subsection}{\numberline {6.1}提出动因与设计逻辑}{11}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}模型构建：响应、目标与约束}{11}{subsection.6.2}%
+\contentsline {subsubsection}{\numberline {6.2.1}延迟响应}{11}{subsubsection.6.2.1}%
+\contentsline {paragraph}{Step 1: 计算有效投入}{11}{subsubsection.6.2.1}%
+\contentsline {paragraph}{Step 2: 计算递减的能力收益}{11}{equation.23}%
+\contentsline {paragraph}{Step 3: 汇总项目贡献}{11}{equation.25}%
+\contentsline {subsubsection}{\numberline {6.2.2}货币目标与可行性}{11}{subsubsection.6.2.2}%
+\contentsline {paragraph}{Step 1: 计算季度项目成本}{11}{subsubsection.6.2.2}%
+\contentsline {paragraph}{Step 2: 计算折现净收益}{11}{equation.27}%
+\contentsline {paragraph}{Step 3: 优化最坏情景可行收益}{12}{equation.28}%
+\contentsline {subsubsection}{\numberline {6.2.3}情景与参数设置}{12}{subsubsection.6.2.3}%
+\contentsline {subsection}{\numberline {6.3}算法设计与分步计算}{12}{subsection.6.3}%
+\contentsline {paragraph}{Step 1: 枚举候选组合}{12}{subsection.6.3}%
+\contentsline {paragraph}{Step 2: 筛选可行组合}{12}{subsection.6.3}%
+\contentsline {paragraph}{Step 3: 计算延迟情景收益}{12}{subsection.6.3}%
+\contentsline {paragraph}{Step 4: 选优并独立压力测试}{12}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}结果分析：项目选择与模型对比}{13}{subsection.6.4}%
+\contentsline {subsubsection}{\numberline {6.4.1}名义情景与最坏情景比较}{13}{subsubsection.6.4.1}%
+\contentsline {subsubsection}{\numberline {6.4.2}留出的联合冲击}{13}{subsubsection.6.4.2}%
+\contentsline {subsection}{\numberline {6.5}性能讨论与适用边界}{14}{subsection.6.5}%
+\contentsline {section}{\numberline {7}模型检验与灵敏度分析}{14}{section.7}%
+\contentsline {subsection}{\numberline {7.1}七类情景与结构压力测试}{14}{subsection.7.1}%
+\contentsline {subsection}{\numberline {7.2}预算与状态噪声灵敏度}{14}{subsection.7.2}%
+\contentsline {subsection}{\numberline {7.3}证据账本与优先校准顺序}{15}{subsection.7.3}%
+\contentsline {section}{\numberline {8}实施方案与持续监测}{15}{section.8}%
+\contentsline {subsection}{\numberline {8.1}依据技能缺口配置人员}{15}{subsection.8.1}%
+\contentsline {subsection}{\numberline {8.2}把技术选型设计为可重复验收流程}{16}{subsection.8.2}%
+\contentsline {subsection}{\numberline {8.3}治理与监测协议}{16}{subsection.8.3}%
+\contentsline {subsection}{\numberline {8.4}90天建制，随后按季学习}{16}{subsection.8.4}%
+\contentsline {section}{\numberline {9}跨港口规模与卡车运输企业迁移}{16}{section.9}%
+\contentsline {subsection}{\numberline {9.1}含义不随规模改变，测量需本地校准}{16}{subsection.9.1}%
+\contentsline {subsection}{\numberline {9.2}运输企业可兼容的成熟度指标}{17}{subsection.9.2}%
+\contentsline {section}{\numberline {10}致ICM公司客户的一封信}{18}{section.10}%
+\contentsline {section}{参考文献}{19}{section.10}%
+\contentsline {section}{\numberline {11}可复现性与AI使用说明}{19}{section.11}%
+\contentsline {section}{\numberline {12}模型综合评价}{19}{section.12}%

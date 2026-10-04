@@ -1,0 +1,32 @@
+\documentclass[11pt,letterpaper]{article}
+\usepackage[margin=0.82in,headheight=15pt,headsep=15pt,footskip=22pt]{geometry}
+\usepackage{fontspec}
+\IfFontExistsTF{Times New Roman}{\setmainfont{Times New Roman}}{\setmainfont{texgyretermes-regular.otf}[BoldFont=texgyretermes-bold.otf,ItalicFont=texgyretermes-italic.otf,BoldItalicFont=texgyretermes-bolditalic.otf]}
+\usepackage{amsmath,amssymb,booktabs,tabularx,array,graphicx,float,enumitem,xcolor,fancyhdr,lastpage,tikz}
+\usetikzlibrary{arrows.meta,positioning,fit}
+\ifdefined\ChineseVersion
+  \usepackage[UTF8,fontset=fandol]{ctex}
+  \newcommand{\bi}[2]{#2}
+\else
+  \newcommand{\bi}[2]{#1}
+\fi
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!45!black]{hyperref}
+\hypersetup{pdftitle={From Records to Reliable Decisions: ICM 2022 D},pdfauthor={}}
+\newcommand{\TeamNumber}{UNASSIGNED}
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small \bi{Team}{队号} \# \TeamNumber}
+\fancyhead[R]{\small \bi{Page}{第} \thepage\ \bi{of}{/} \pageref{LastPage}}
+\renewcommand{\headrulewidth}{0.4pt}
+\setlength{\parindent}{1.2em}\setlength{\parskip}{4.5pt}
+\linespread{1.0}
+\setlength{\emergencystretch}{2em}
+\setlength{\tabcolsep}{4pt}\renewcommand{\arraystretch}{1.17}
+\setlist{nosep,leftmargin=1.5em,topsep=4pt}
+\setcounter{tocdepth}{1}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\pagepart}[2]{\clearpage\section{\bi{#1}{#2}}}
+\newcommand{\subpart}[2]{\subsection{\bi{#1}{#2}}}
+\newcommand{\simnote}{\bi{All numerical results on this page are synthetic scenario results.}{本页所有数值均为情景模拟结果。}}
+\newcommand{\algo}[3]{\begin{quote}\hrule\smallskip\textbf{\bi{Algorithm}{算法} #1: #2}\par #3\smallskip\hrule\end{quote}}
+\newcommand{\fig}[3]{\begin{figure}[H]\centering\includegraphics[width=#1\linewidth]{figures/#2.pdf}\caption{#3}\end{figure}}
+\input{results/metrics.tex}
