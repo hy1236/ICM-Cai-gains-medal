@@ -1,1 +1,7 @@
 /agent.md
+
+# Generated compilation and review files
+**/.build/
+**/__pycache__/
+/work/
+/reference_page*.png
