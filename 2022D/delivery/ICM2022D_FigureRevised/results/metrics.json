@@ -1,0 +1,255 @@
+{
+  "seed": 2022,
+  "evidence_class": "synthetic scenario; no ICM observations",
+  "screen": {
+    "selected": [
+      "P1",
+      "P2",
+      "T1",
+      "T2",
+      "T4",
+      "R2",
+      "R4",
+      "R5",
+      "R6",
+      "C2"
+    ],
+    "cost": 17.0,
+    "full_cost": 29,
+    "coverage": 1.0,
+    "min_jaccard": 1.0
+  },
+  "cleaning": {
+    "raw": 35597,
+    "unique": 34560,
+    "duplicates": 1037,
+    "unknown": 987,
+    "late": 920
+  },
+  "state": {
+    "fits": [
+      {
+        "dimension": 0,
+        "delay": 2,
+        "true_delay": 2,
+        "phi": 0.8152340553466848,
+        "mu": -0.2979416718225459,
+        "beta": 0.23878878774594212
+      },
+      {
+        "dimension": 1,
+        "delay": 3,
+        "true_delay": 1,
+        "phi": 0.7280408030629739,
+        "mu": 0.4830872344595428,
+        "beta": 0.133276281409237
+      },
+      {
+        "dimension": 2,
+        "delay": 2,
+        "true_delay": 2,
+        "phi": 0.9096330423440181,
+        "mu": -1.1309685844247563,
+        "beta": 0.1846587883818966
+      }
+    ],
+    "test_filtered_rmse": 0.028377967607114647,
+    "test_raw_rmse": 0.04098837057195538,
+    "test_forecast_rmse": 0.03486756995288938,
+    "test_zero_lag_rmse": 0.04700591168945139,
+    "conditional_90_coverage": 0.6666666666666666
+  },
+  "chain": {
+    "metrics": [
+      {
+        "chain": 0,
+        "penalty": 0.01,
+        "brier": 0.22886539041912138,
+        "null_brier": 0.250625,
+        "logloss": 0.6480281892143382,
+        "truth_rmse": 0.07417351453128294
+      },
+      {
+        "chain": 1,
+        "penalty": 0,
+        "brier": 0.21144490036416347,
+        "null_brier": 0.25491736111111113,
+        "logloss": 0.6117037313315682,
+        "truth_rmse": 0.029382502869258354
+      }
+    ],
+    "coefficients": [
+      [
+        -1.3074591827652418,
+        0.779994328093197,
+        0.5682000396729,
+        0.7476343595278315,
+        0.733573060392586,
+        -0.4855835087282986,
+        -0.9097441251118594
+      ],
+      [
+        -2.905427522578045,
+        1.5887747341476153,
+        1.278228912977166,
+        1.6787658848360738,
+        1.0927638885081634,
+        -0.49008426109812797,
+        -1.6308843646650464
+      ]
+    ],
+    "baseline_capability": [
+      0.4822803660692212,
+      0.5384401480119688,
+      0.40702758254589577
+    ],
+    "baseline_maturity": 41.95699114608566,
+    "approx_joint90": [
+      39.49862619048151,
+      52.70588612739907
+    ],
+    "planning_joint_draw_indices": [
+      238,
+      619
+    ]
+  },
+  "optimization": {
+    "menu_size": 16807,
+    "feasible": 1418,
+    "optimality_gap_finite_menu": 0,
+    "levels": [
+      1.0,
+      0.0,
+      0.0,
+      3.0,
+      1.0
+    ],
+    "starts_quarter": [
+      1,
+      1,
+      1,
+      1,
+      1
+    ],
+    "quarter_spend": [
+      5.449999999999999,
+      0.0
+    ],
+    "quarter_staff": [
+      5.0,
+      0.0
+    ],
+    "worst_net_units": 5.967063630111185,
+    "nominal_net_units": 16.36965102276459,
+    "final_maturity": 55.31573550050957,
+    "equal_worst_net_units": 3.5330758758423064,
+    "greedy_worst_net_units": 5.691929794399066,
+    "nominal_plan_worst_net_units": 4.0742829623194545,
+    "nominal_plan_overrun": true
+  },
+  "heldout": {
+    "Equal": {
+      "mean_net": 9.542049,
+      "violation": 0.325,
+      "mean_feasible_regret": 2.14613
+    },
+    "Greedy": {
+      "mean_net": 11.001096,
+      "violation": 0.19,
+      "mean_feasible_regret": 0.477804
+    },
+    "Nominal": {
+      "mean_net": 9.760225,
+      "violation": 0.69,
+      "mean_feasible_regret": 1.312077
+    },
+    "Robust": {
+      "mean_net": 10.126029,
+      "violation": 0.05,
+      "mean_feasible_regret": 1.253449
+    }
+  },
+  "scenarios": [
+    {
+      "scenario": "Balanced",
+      "score": 65.31781937285103
+    },
+    {
+      "scenario": "Weak governance",
+      "score": 52.822928292410964
+    },
+    {
+      "scenario": "Training pending",
+      "score": 55.15324158694217
+    },
+    {
+      "scenario": "Peak demand",
+      "score": 53.69455665060917
+    },
+    {
+      "scenario": "Shared outage",
+      "score": 36.45390389138051
+    }
+  ],
+  "diminishing": {
+    "first_training_increment": 0.08810736574124454,
+    "third_training_increment": 0.017788570352838866
+  },
+  "missing_bounds": {
+    "month": 40,
+    "dimension": 2,
+    "low": 0.37916666666666665,
+    "high": 0.5541666666666667,
+    "observed_only": 0.4595959595959596
+  },
+  "sensitivity": [
+    {
+      "budget_factor": 0.8,
+      "best_worst_net": 5.6443468416790665,
+      "fixed_plan_feasible": false,
+      "selected_units": "1,0,0,2,1"
+    },
+    {
+      "budget_factor": 0.9,
+      "best_worst_net": 5.6443468416790665,
+      "fixed_plan_feasible": false,
+      "selected_units": "1,0,0,2,1"
+    },
+    {
+      "budget_factor": 1,
+      "best_worst_net": 5.967063630111185,
+      "fixed_plan_feasible": true,
+      "selected_units": "1,0,0,3,1"
+    },
+    {
+      "budget_factor": 1.1,
+      "best_worst_net": 5.967063630111185,
+      "fixed_plan_feasible": true,
+      "selected_units": "1,0,0,3,1"
+    },
+    {
+      "budget_factor": 1.2,
+      "best_worst_net": 6.04471750820642,
+      "fixed_plan_feasible": true,
+      "selected_units": "2,0,0,3,1"
+    }
+  ],
+  "noise_sensitivity": [
+    {
+      "process_noise_sd": 0.064,
+      "test_rmse": 0.029026373256744818,
+      "final_maturity": 42.379818784054486
+    },
+    {
+      "process_noise_sd": 0.08,
+      "test_rmse": 0.028377967607114647,
+      "final_maturity": 41.95699114608566
+    },
+    {
+      "process_noise_sd": 0.096,
+      "test_rmse": 0.028543363914504297,
+      "final_maturity": 41.62645691879641
+    }
+  ],
+  "units": "Capability/probability: dimensionless; maturity: 0-100; cost/net: USD 10,000; staffing: capacity units."
+}

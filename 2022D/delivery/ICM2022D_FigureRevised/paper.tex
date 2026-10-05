@@ -1,0 +1,632 @@
+\input{preamble.tex}
+\begin{document}
+\thispagestyle{empty}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\centering\arraybackslash}X>{\centering\arraybackslash}X>{\centering\arraybackslash}X}
+\textbf{\bi{Problem Chosen}{所选题目}}&\textbf{2022}&\textbf{\bi{Team Control Number}{队伍控制编号}}\\
+\Large D&\textbf{MCM/ICM}&\large\TeamNumber\\
+&\textbf{\bi{Summary Sheet}{摘要页}}&\\
+\end{tabularx}\par\smallskip\hrule\medskip
+{\Large\bfseries\bi{From Records to Reliable Decisions:\\Measuring and Improving Port Data Maturity}{从数据记录到可靠决策：\\港口数据成熟度的测量与改进}}\par\medskip
+\textbf{\bi{Summary}{摘要}}
+\end{center}\par
+\bi{
+ICM Corporation needs to evaluate its data and analytics maturity, identify feasible improvements, establish monitoring protocols, and adapt the assessment to other ports and trucking firms. To address these tasks, we build four models: a coverage-constrained indicator selection model and three linked models for capability estimation, chain reliability, and robust resource allocation. Because the company withholds numerical records, the framework is demonstrated with explicitly labeled synthetic data.
+
+First, we map port operations to nine information-management requirements and construct a dictionary of 16 indicators. The coverage model retains ten high-frequency indicators while reducing illustrative collection cost from 29 to 17 units. We then establish event identifiers, source records, missing-data bounds, and versioned processing rules. Deduplication yields 34,560 unique audit events, including 987 unknown outcomes that remain in the expected-event denominator.
+
+Next, the Lag-aware Capability Filter (LCF) uses monthly audit counts to estimate people, technology, and process capability. The state equation combines persistence and delayed action effects, while the observation equation adjusts for workload and sample size. The resulting final capability profile is $(0.4823,0.5384,0.4070)$, providing a common input for the maturity assessment rather than three unrelated KPI scores.
+
+Then, the Chain Reliability Maturity (CRM) model links those capabilities to timely, correct import and export handoffs. It incorporates a people--process interaction and a shared-outage effect. Fixed reference conditions give a comparable maturity score of \BaseMaturity/100 in the demonstration, while separate operational scores reveal current workload and outage risks. The score is not presented as ICM's observed maturity.
+
+Furthermore, the Robust Improvement Portfolio (RIP) model combines diminishing returns, implementation delays, dependencies, staffing, and quarterly budgets. Enumerating 16,807 menus selects training, governance, and recovery investments costing \PlanCost\ units, with a worst planning-scenario net benefit of \WorstNet\ units; one unit represents USD 10,000. Nominal maturity rises to \FinalMaturity/100. We translate the decision process into a monitoring protocol and explain how compatible handoff measures support different port sizes and trucking partners.
+
+Finally, model testing covers temporal prediction, probability calibration, parameter sensitivity, and held-out decision scenarios. Filtered capability RMSE is \StateRMSE, versus \RawRMSE\ for direct monthly estimates; delayed forecast RMSE is \ForecastRMSE, versus \ZeroRMSE\ without onset delay. The two chain Brier scores are \BrierImport\ and \BrierExport. Tests also identify boundaries: nominal 90\% state intervals cover only \Coverage\% of test states, and the robust menu violates budget in 5\% of wider stress cases. These results support the framework's comparative use while requiring recalibration before enterprise deployment.
+}{
+ICM公司需要评价数据与分析系统的成熟度，制定资源约束下的改进方案，建立持续监测协议，并将评价体系推广到不同规模港口及卡车运输企业。针对这些任务，本文建立四个模型：业务覆盖约束下的指标筛选模型，以及能力状态估计、业务链可靠性成熟度评价和稳健资源优化三个相互衔接的模型。由于企业没有提供数值记录，本文使用明确标记的情景数据演示模型运行过程。
+
+首先，将港口业务映射为九类信息管理需求，构建16项指标字典，通过覆盖约束模型选出10项高频指标，将示例采集成本从29单位降至17单位。随后统一事件编号、来源记录、缺失边界和处理规则；去重得到34,560条唯一审核事件，并保留987条未知结果，使缺失记录不从应统计分母中消失。
+
+然后，建立含滞后的能力滤波模型（LCF），以月度审核计数估计人员、技术和流程能力。状态方程同时描述能力持续性与行动延迟，观测方程调整负荷和样本量差异，得到期末能力画像$(0.4823,0.5384,0.4070)$，为后续成熟度评价提供统一输入。
+
+在此基础上，建立业务链可靠性成熟度模型（CRM），将三维能力映射为进出口交接及时、准确完成的概率，并纳入人员与流程交互及共享故障效应。参考环境下的示例成熟度为\BaseMaturity/100；另行报告实际负荷和故障条件下的运营分数，以区分能力差异与当前运营风险。该示例评分不作为ICM的真实观测结果。
+
+此外，建立稳健改进组合模型（RIP），综合考虑边际收益递减、实施延迟、项目依赖、人力和季度预算。枚举16,807种组合后，选出培训、治理与恢复能力组合，名义投入\PlanCost\ 单位，最坏规划情景净收益\WorstNet\ 单位，每单位为1万美元；名义成熟度提高至\FinalMaturity/100。最后将决策流程落实为监测协议，并通过兼容的交接指标支持大小港口和运输企业迁移。
+
+模型检验方面，分别开展时序预测、概率校准、参数灵敏度与留出决策情景检验。能力估计RMSE为\StateRMSE，低于直接月度估计的\RawRMSE；含延迟预测RMSE为\ForecastRMSE，低于无起效延迟的\ZeroRMSE；两条业务链Brier分数为\BrierImport\ 和\BrierExport。同时，名义90\%状态区间实际覆盖率仅为\Coverage\%，更宽压力情景下预算违约率为5\%。这些结果说明模型能够支持方案比较，但企业部署前仍需校准不确定性和风险边界。
+}
+\par\smallskip\noindent\textbf{\bi{Keywords}{关键词}:} \bi{indicator selection; state estimation; chain reliability; robust optimization; sensitivity analysis}{指标筛选；状态估计；业务链可靠性；稳健优化；灵敏度分析}
+
+\clearpage
+\begingroup\fontsize{9.5}{10.5}\selectfont\tableofcontents\endgroup
+\clearpage
+\pagepart{Introduction}{引言}
+\subpart{Problem Background}{问题背景}\par
+\bi{A container's physical journey and its information journey must stay aligned. Arrival notices, manifests, customs releases, yard locations, and inland schedules are produced by different actors. A correct record arriving after a truck has departed can be as costly as an incorrect record. The ICM problem therefore asks for a system that evaluates people, technologies, processes, and their connection \cite{comap}.
+
+Our assessment covers two complete chains: import, from arrival information to inland release; and export, from inland receipt to vessel loading confirmation. A chain succeeds only when all required information is correct enough for the agreed task and available by its deadline. We do not equate analytics maturity with the number of dashboards, licenses, or sensors.}{集装箱的实物流转与信息流转必须保持一致。到港通知、舱单、海关放行、堆场位置及内陆运输计划由不同主体产生。即使记录准确，如果在卡车离港后才到达，也可能失去业务价值。ICM赛题因此要求评价人员、技术、流程及三者之间的联系\cite{comap}。
+
+本文覆盖进口与出口两条完整业务链：前者由到港信息开始，终止于内陆交接；后者由内陆接货开始，终止于装船确认。只有全部必需信息达到约定准确性并在截止时间前可用，才视为成功。成熟度不能用仪表盘、软件许可证或传感器数量替代。}
+\subpart{Problem Restatement}{问题重述}
+\begin{enumerate}
+\item \bi{Define observable KPIs and an interpretable maturity metric.}{定义可观测KPI和具有业务含义的成熟度指标。}
+\item \bi{Translate a measured profile into a feasible improvement portfolio.}{把测得的能力画像转化为可实施的改进组合。}
+\item \bi{Specify collection, governance, validation, and monitoring protocols.}{制定采集、治理、检验与持续监测协议。}
+\item \bi{Adapt the system to different port sizes and to trucking firms.}{适配不同规模港口和卡车运输企业。}
+\item \bi{Explain these safeguards to customers in a one-page letter.}{用一页客户信解释测量与保障机制。}
+\end{enumerate}\par
+\bi{ICM supplies an operational description but withholds internal records. Consequently, its actual maturity is \emph{not identifiable from the problem statement}. We deliver a measurement instrument and test its behavior using labeled synthetic records. No simulated interview, procurement quote, or corporate financial observation is presented as real evidence.}{ICM仅提供业务描述，没有披露内部记录。因此，\emph{仅凭题目无法识别其真实成熟度}。本文交付可部署的测量工具，并用明确标记的模拟记录检验其行为，不把模拟访谈、采购报价或财务数字写成真实证据。}
+\subpart{Our Work}{本文工作}\par
+\bi{Port digitalization involves several organizations whose records must agree at each handoff \cite{ports}. We begin with a dictionary of 16 indicators covering people, technology, processes, and service outcomes. The distinction between a quality dimension, its metric, and its measurement \cite{dqv} gives each indicator a clear interpretation. A coverage-constrained selection model then reduces collection effort while retaining the required governance and recovery checks.
+
+Monthly audit rates combine capability changes with sampling noise and workload effects. We use the Lag-aware Capability Filter (LCF), a state-space model based on Bayesian filtering \cite{sarkka}, to estimate three capability trajectories and the delayed effects of recorded actions. The Chain Reliability Maturity (CRM) model maps these estimates to timely, correct import and export handoffs. Its probabilities provide a service-based maturity score, which is checked with proper scoring rules \cite{scoring}.
+
+Improvement projects compete for the same budget and staff. The Robust Improvement Portfolio (RIP) model compares training, hiring, integration, governance, and recovery under cost and implementation uncertainty \cite{robust}. Its selected portfolio feeds into a collection and monitoring protocol. Provenance records \cite{prov} allow a reported score or decision to be traced back to the records used. We also discuss how the assessment can be adapted to different port sizes and trucking companies.}{港口数字化涉及多个组织，同一业务交接需要各方记录相互一致\cite{ports}。本文首先围绕人员、技术、流程及服务结果建立16项指标的评价体系。借鉴质量维度、指标与测量值的区分\cite{dqv}，明确各项指标的业务含义，再通过覆盖约束下的指标筛选模型，在保留治理和恢复检查的基础上减少采集工作量。
+
+月度审核通过率同时受到能力变化、抽样误差与业务负荷的影响。本文采用基于贝叶斯滤波\cite{sarkka}的含滞后能力滤波模型（LCF），估计三维能力的变化及已记录行动的延迟作用。随后建立业务链可靠性成熟度模型（CRM），将能力状态映射为进出口交接及时、准确完成的概率，以可检验的服务结果定义成熟度，并用适当评分规则\cite{scoring}评价概率预测。
+
+各类改进项目共同占用预算和人力。本文进一步建立稳健改进项目组合模型（RIP），在成本与实施效果不确定的条件下比较培训、招聘、集成、治理和恢复方案\cite{robust}。求得的组合用于制定数据采集与持续监测方案；溯源记录\cite{prov}则支持从评分和决策回查原始数据。最后讨论评价体系在不同规模港口和卡车运输企业中的应用。}
+
+\bi{Figure~\ref{fig:framework} shows how indicator records feed the capability filter, how capabilities determine chain reliability, and how the investment decision returns to monitoring. The feedback arrow represents updating evidence and model parameters after implementation.}{图\ref{fig:framework}展示指标记录如何进入能力滤波、能力如何影响业务链可靠性，以及投资实施后如何反馈到监测。回流箭头表示使用实施后的新证据更新参数与决策。}
+\bi{Monitoring and cross-enterprise transfer remain proposals, not field-validated deployments.}{监测与跨企业迁移仍为部署方案，尚未经现场验证。}
+\bodyfig{framework}{\bi{The evidence-to-decision framework}{证据—决策整体框架}}
+
+\pagepart{Assumptions and Notation}{模型假设与符号说明}
+\begin{enumerate}[label=\textbf{A\arabic*.}]
+\item \bi{\textbf{Comparable event definitions.} An import/export success has a versioned deadline and error rule. Otherwise probabilities across months are not comparable.}{\textbf{事件定义可比较。} 进出口成功必须对应有版本的截止时间与错误规则，否则跨月概率无法比较。}
+\item \bi{\textbf{Anchored capabilities.} One audited pass probability fixes each latent dimension's direction and scale. The demonstration fixes its intercept to zero and loading to one.}{\textbf{能力尺度固定。} 潜在状态的尺度需要参照才能确定。每维由一个经核验的通过概率定义方向和尺度，演示中固定截距为零、载荷为一。}
+\item \bi{\textbf{Local response stability.} Within the four-quarter planning horizon, the action-response function is stable. Structural change triggers refitting.}{\textbf{短期响应稳定。} 四季度规划期内的投入响应函数保持稳定，结构变化时重新拟合。}
+\item \bi{\textbf{Audits are conditionally independent in the generator.} Real repeated workers, shifts, or voyages require cluster effects; our reported intervals do not include them.}{\textbf{生成器中审核记录条件独立。} 实际人员、班次或船次内聚类需要单独处理，本文区间未包含这些相关性。}
+\item \bi{\textbf{Loss is incremental and nonoverlapping.} Avoided losses apply to distinct import/export transactions. Shared-event losses must be allocated once.}{\textbf{损失增量不重复。} 避免损失对应不同进出口交易，共享事件损失只能分配一次。}
+\end{enumerate}
+\par\begin{table}[!htbp]\centering\small
+\caption{\bi{Core notation. All probabilities and capabilities are dimensionless.}{核心符号；所有概率和能力均无量纲。}}
+\begin{tabularx}{\linewidth}{lYl}\toprule
+\bi{Symbol}{符号}&\bi{Meaning}{含义}&\bi{Unit}{单位}\\\midrule
+$d\in\{P,T,R\}$&\bi{People, technology, process}{人员、技术、流程}&--\\
+$t,q,k,j$&\bi{Month, quarter, chain, project index}{月、季度、业务链、项目编号}&--\\
+$Y_{dt},N_{dt},m_{dt}$&\bi{Passes, observed audits, unknown records}{通过数、有效审核数、未知数}&\bi{count}{条}\\
+$z_{dt},a_{dt}$&\bi{Logit capability; $a=\operatorname{logit}^{-1}(z)$}{对数几率能力及其逆变换}&--\\
+$p_k,M$&\bi{Chain success probability; maturity score}{业务链成功概率；成熟度}&--, 0--100\\
+$x_j,s_j,G_j$&\bi{Project level, start quarter, gain ceiling}{项目规模、启动季度、改善上限}&\bi{unit, quarter, --}{单位、季度、--}\\
+$B_q,Z_s$&\bi{Quarterly budget; scenario net benefit}{季度预算；情景净收益}&USD 10,000\\\bottomrule
+\end{tabularx}\end{table}\par
+
+
+\pagepart{Indicator Selection and Data Preparation}{指标筛选与数据预处理}
+\subpart{Selection of Maturity Indicators}{成熟度评价指标的筛选}
+\bi{A useful maturity assessment must cover several kinds of failure, but collecting every available KPI consumes audit effort. Indicators with similar monthly trends can still serve different purposes: uptime records ordinary availability, whereas a recovery test checks what happens after an outage. We select the high-frequency panel by requirement coverage and collection cost, keeping critical checks mandatory.}{成熟度评价需要识别不同环节的失效，全量采集KPI又会占用较多审核资源。两项指标即使月度变化相似，业务作用也可能不同：可用率描述正常服务，恢复演练检查故障后的恢复能力。本文按业务需求覆盖情况和采集成本选择高频指标，并保留关键检查项。}\par
+\bi{We describe each candidate by its operational definition, the requirements it covers, and the effort needed to collect it. A binary variable records whether it enters the panel. The resulting selection is both a minimum-cost coverage problem and a list of measurements the port can actually maintain.}{每个候选指标均给出操作定义、所覆盖的需求和采集工作量，以二元变量表示是否入选。这样既能将指标筛选写成最小成本覆盖问题，也能得到港口可持续维护的测量清单。}\par
+
+\bi{Each indicator must answer a business question, be observable, and support an action. A high correlation does not make recovery tests interchangeable with uptime. Table~\ref{tab:dict} defines the complete dictionary; a star marks the selected high-frequency panel. C2 is an outcome, not an additional independent capability measurement.}{每项指标必须回答业务问题、能够观测并支持行动。即使相关性高，恢复演练也不能被可用率替代。表\ref{tab:dict}给出完整字典，星号表示高频面板入选项。C2是结果变量，不作为额外的独立能力观测。}
+\par\begin{table}[!htbp]\small\centering\caption{\bi{Operational KPI definitions and management use.}{KPI操作定义及管理用途。}}\label{tab:dict}
+\begin{tabularx}{\linewidth}{lYY}\toprule
+ID&\bi{Operational definition}{操作定义}&\bi{Action or source}{行动或来源}\\\midrule
+P1* &\bi{Passed job tasks / valid practical tests}{岗位实操通过数/有效测试数}&\bi{Targeted training; test log}{定向培训；考核日志}\\
+P2* &\bi{Qualified staffed skill-slots / required slots}{有合格人员的技能岗位数/必需岗位数}&\bi{Hire, transfer, or contract}{招聘、调配或外包}\\
+P3 &\bi{Retained competence after training}{培训后的能力保持}&\bi{Follow-up practical tests}{延后实操测试}\\
+P4 &\bi{Approval-to-arrival staffing time}{需求批准至合格人员到岗时间}&\bi{Recruitment records; censor unfinished cases}{招聘记录；未完成者删失}\\
+T1* &\bi{Available required-service time / required time}{规定服务时段可用时间占比}&\bi{Service and outage logs}{服务与故障日志}\\
+T2* &\bi{Correct delivered logical transactions / due transactions}{正确交付逻辑交易数/应交付数}&\bi{Interface acceptance tests}{接口验收测试}\\
+T3 &\bi{Actual minus required data-availability time}{实际可用时间减要求可用时间}&\bi{Median and tail latency}{延迟中位数与尾部分位数}\\
+T4* &\bi{Recovery drills meeting requirements / valid drills}{达到恢复要求的演练数/有效演练数}&\bi{Recovery design and rehearsal}{灾备设计与演练}\\
+R1 &\bi{Usable required fields / all required fields}{可用必填字段数/应填字段数}&\bi{Entry and schema rules}{录入与结构规则}\\
+R2* &\bi{Independently verified correct items / audited items}{独立核验正确项/被审计项}&\bi{Source-document audit}{原始凭据复核}\\
+R3 &\bi{Consistent matched records / required matches}{一致匹配记录数/应匹配数}&\bi{Reconcile shared identifiers}{共享编号对账}\\
+R4* &\bi{Assets with accountable owners / applicable assets}{有有效责任人的资产数/适用资产数}&\bi{Ownership register}{责任清单}\\
+R5* &\bi{Assets meeting metadata rules / checked assets}{元数据达标资产数/检查数}&\bi{Catalog and schema version}{目录与结构版本}\\
+R6* &\bi{Compliant access/lifecycle checks / applicable checks}{访问与生命周期合规项/适用项}&\bi{Approval and disposal evidence}{授权与处置证据}\\
+C1 &\bi{Issue creation to independently confirmed closure}{工单创建至独立确认修复的时长}&\bi{Escalation and root-cause review}{升级处理与根因复核}\\
+C2* &\bi{Timely, correct complete chains / due chains}{及时准确完成的业务链数/应完成数}&\bi{Customer handoff reliability}{客户交接可靠性}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{Let $A_{gi}$ encode coverage of nine requirements: competence, staffing, reliability, interoperability, quality, accountability/security, metadata, lifecycle, and handoffs. With binary inclusion $z_i$, solve}{令$A_{gi}$表示对九类需求的覆盖：技能、配置、可靠性、互通、质量、责任与安全、元数据、生命周期和交接。对二元入选变量$z_i$求解}
+\begin{equation}\min_z\sum_i c_i z_i\quad\text{s.t.}\quad\sum_i A_{gi}z_i\ge1\;(\forall g),\quad z_i=1\;(i\in\mathcal I_{\rm mandatory}).\end{equation}\par
+\paragraph{Step 1: \bi{encode requirements}{确定指标覆盖关系}}\par
+\bi{Set $A_{gi}=1$ exactly when indicator $i$ supplies evidence for requirement $g$; record effort $c_i$ in a common unit. Lock the mandatory indicators before searching.}{仅当指标$i$能够提供需求$g$的证据时令$A_{gi}=1$，并统一记录工时成本$c_i$；搜索前锁定强制指标。}\par
+\paragraph{Step 2: \bi{enumerate and screen}{枚举与筛选}}\par
+\bi{Enumerate all binary vectors $z\in\{0,1\}^{16}$; discard a vector if any mandatory item is absent or any requirement has zero coverage.}{枚举全部$z\in\{0,1\}^{16}$，剔除缺少强制项或存在未覆盖需求的向量。}\par
+\paragraph{Step 3: \bi{select and perturb costs}{选优并扰动成本}}\par
+\bi{Minimize total cost among surviving vectors, output their selected indicator IDs, then repeat after raising each individual cost by 20\%. Compare the selected sets to assess local stability.}{在可行向量中选择总成本最小者，输出指标编号；再依次将单项成本提高20\%并重新求解，通过入选集合变化检查局部稳定性。}\par
+\bi{Table~\ref{tab:dict} marks the selected indicators with stars. Their definitions show which operational checks remain in the high-frequency panel.}{表\ref{tab:dict}以星号标记入选指标，可据其操作定义检查高频面板保留了哪些业务测量。}\par
+\bi{Figure~\ref{fig:coverage} makes the coverage structure explicit: retaining every indicator is unnecessary, but each requirement must retain an auditable measure.}{图\ref{fig:coverage}展示覆盖结构：并非所有指标都须高频保留，但每类需求均须有可审计的测量。}
+\bi{Icon tiles indicate coverage and blanks indicate none. Colors identify indicators, not performance; an asterisk marks selection and a plus marks mandatory retention.}{图标方格表示覆盖，空白表示无覆盖。颜色识别指标而非绩效；星号为入选，加号为强制保留。}
+\bodyfig{coverage}{\bi{Coverage of requirements by candidate indicators}{候选指标对各类需求的覆盖}}
+\bi{The mandatory set is P2, T1, T4, R2, R4, R6, C2. Enumerating $2^{16}$ subsets selects ten indicators at 17 cost units versus 29 for all indicators, a 41.4\% reduction. Raising each cost separately by 20\% leaves the set unchanged (minimum Jaccard similarity 1.00). These costs are illustrative effort units. Low-frequency diagnostics remain available; deleting them from the high-frequency panel does not delete the underlying records.}{强制集合为P2、T1、T4、R2、R4、R6、C2。枚举$2^{16}$个子集得到10项指标，成本17单位，较全量29单位降低41.4\%。分别提高各指标成本20\%，集合均未变化，最小Jaccard相似度为1.00。这些成本是示例工时单位；低频诊断仍保留，移出高频面板不等于删除原始记录。}
+
+\bi{Unchanged selection under individual cost perturbations indicates local stability. Joint cost changes can still alter the panel. The result also depends on how coverage is assigned: a checked requirement is meaningful only if the associated audit measures it adequately. Indicator definitions and audit quality should therefore be reviewed together.}{单项成本扰动未改变入选集合，表明该方案具有局部稳定性；多项成本同时变化仍可能导致重新选择。覆盖结果也取决于需求与指标的对应关系，形式上覆盖某项需求，还需由相应审核保证测量质量。实际应用时应同时复核指标定义和审核过程。}\par
+
+\subpart{Data Collection}{数据采集}
+\thirdpart{Event Records and Data Confidentiality}{业务事件记录与数据保密}\par
+\bi{A delivery log contains only events that reach the system. A handoff that fails before a record is written can disappear from the denominator, producing an overstated success rate. We establish the expected-event registry before delivery and assign each handoff a business identifier, sender, recipient, required fields, and deadline. This registry records what should happen as well as what was observed.
+
+Technical retries create a different counting problem: several attempts can correspond to one handoff. Each attempt receives its own event identifier but retains the shared business identifier. Counting handoffs by business identifier avoids inflating the transaction total, while the separate attempt records preserve evidence for diagnosing interface failures.
+
+Late records can change a monthly result after it has been published. Each record stores the event and business identifiers, business unit $b$, event and ingestion times, source, outcome, quality flag, and rule version. Event time determines the reporting month; ingestion time identifies late arrivals. A closed report is retained, and subsequent corrections receive a new version. Unresolved outcomes remain marked as unknown.
+
+Personnel tests and shipment records can disclose identities or commercial information even when the evaluator needs only counts and error categories. Personnel records use pseudonymous identifiers, with the identity mapping held separately under controlled access. Detailed calculations remain inside ICM; only approved aggregates leave the company. The internal audit trail retains enough detail to verify those aggregates without routinely exposing sensitive records.}{交付日志只包含已经进入系统的记录。若一次交接在生成记录之前就失败，它可能从统计分母中消失，使成功率被高估。本文在交付之前建立预期事件清单，为每项应完成的交接登记业务编号、发送方、接收方、必需字段和截止时间。清单同时记录“应当发生什么”和“实际观测到什么”，使失败与缺失均有对应位置。
+
+技术重试会带来另一种计数偏差：同一交接可能生成多次发送记录。每次尝试保留独立事件编号，同时关联同一个业务编号。按业务编号统计交接次数，可以避免重复计数；保留尝试记录则有助于追查接口故障。
+
+迟报与补录可能改变已经发布的月度结果。最小记录包含事件编号、业务编号、业务单元、事件时间、录入时间、来源、结果、质量标记和规则版本。事件时间确定业务归属月份，录入时间识别记录到达是否延迟。月报发布后保留原版本，后续修正另行形成新版本；尚未查明的结果仍标记为未知。
+
+人员考核和货运记录可能暴露身份或商业信息，而评价通常只需要计数和错误类别。人员记录采用假名化编号，身份映射单独保存并限制访问；明细计算留在ICM内部，对外仅提供获准汇总。内部审计链保留核对汇总结果所需的明细，兼顾统计复核与数据保密。}
+\thirdpart{Stratified Sampling}{分层抽样}\par
+\bi{Daytime records and easily reached employees may dominate a convenient audit sample, leaving night shifts or complex cargo underrepresented. We collect logs exhaustively where practical and stratify manual audits by role, shift, terminal, cargo class, and workload. Population weights then correct differences between the sample composition and the operations being assessed. Let $N_h$ be the stratum population and $y_h/n_h$ its audited pass rate.}{便利抽样容易集中于白班和易接触人员，使夜班或复杂货种在样本中占比偏低。日志在可行时全量采集，人工审核则按岗位、班次、港区、货种和负荷分层，再按总体结构加权，减少样本构成对评价结果的影响。设第$h$层总体量为$N_h$，审核通过率为$y_h/n_h$。}
+\paragraph{Step 1: \bi{calculate stratum weights}{计算分层权重}}\par
+\bi{Let $N_h$ and $n_h$ denote the population and sample size of stratum $h$, and $y_h$ its observed passes. Calculate the population weight $W_h$ and the sample pass rate $\widehat p_h$:}{设$N_h$、$n_h$分别为第$h$层总体量和样本量，$y_h$为通过数。先计算总体权重$W_h$及层内通过率$\widehat p_h$：}
+\begin{equation}W_h=\frac{N_h}{\sum_{g=1}^{H}N_g},\qquad \widehat p_h=\frac{y_h}{n_h}.\end{equation}
+\paragraph{Step 2: \bi{aggregate the estimate}{汇总通过率}}\par
+\bi{The weighted estimate uses population composition rather than the observed response mix:}{按总体结构而非实际响应结构加权，得到整体通过率：}
+\begin{equation}\widehat p=\sum_{h=1}^{H}W_h\widehat p_h.\end{equation}
+\paragraph{Step 3: \bi{quantify sampling variance}{计算抽样方差}}\par
+\bi{For independent sampling within strata, let $s_h^2$ be the unbiased sample variance of the binary outcomes. The finite-population correction accounts for sampling without replacement:}{若层内独立抽样，令$s_h^2$为二元结果的无偏样本方差；有限总体修正项用于不放回抽样：}
+\begin{equation}s_h^2=\frac{n_h}{n_h-1}\widehat p_h(1-\widehat p_h),\qquad
+\widehat{\operatorname{Var}}(\widehat p)=\sum_{h=1}^{H}W_h^2\left(1-\frac{n_h}{N_h}\right)\frac{s_h^2}{n_h},\quad n_h>1.\end{equation}
+
+\bi{With per-audit cost $c_h$ and estimated within-stratum standard deviation $S_h$, continuous optimal allocation satisfies $n_h\propto N_hS_h/\sqrt{c_h}$, subject to a minimum sample in every relevant stratum. Repeated employees or voyages require a cluster bootstrap instead of the independent-record variance above. If a stratum has no responses, report an identification interval rather than a fabricated weighted estimate.}{设单次审核成本为$c_h$，层内标准差试估计为$S_h$，则连续最优配置满足$n_h\propto N_hS_h/\sqrt{c_h}$，并要求每个相关层有最低样本量。重复人员或船次需采用聚类自助法，不能直接使用上述独立记录方差。某层无人响应时，应给出识别区间，而不能编造加权估计。}
+\par\begin{table}[!htbp]\small\caption{\bi{Collection risks, corrections, and acceptance evidence.}{采集风险、修正与验收依据。}}
+\begin{tabularx}{\linewidth}{YYY}\toprule
+\bi{Risk}{风险}&\bi{Correction}{修正}&\bi{Verification}{检验}\\\midrule
+\bi{Night shifts respond less often}{夜班响应偏低}&\bi{Record response by stratum; supplement undercovered shifts}{记录分层响应；补采薄弱班次}&\bi{Compare sample and population shares}{比较样本与总体结构}\\
+\bi{Confidential records cannot leave ICM}{明细不可离开企业}&\bi{Compute inside ICM; release approved aggregates}{内部计算；仅输出获准汇总}&\bi{Reproduce selected totals from internal evidence}{在内部按凭据复现部分汇总}\\
+\bi{Same auditor defines and validates rules}{同一审核者设计并验证规则}&\bi{Freeze rules before independent re-audit}{冻结规则后独立复核}&\bi{Keep validation sample separate}{验证样本独立保留}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{The demonstration uses one homogeneous audit stratum with 240 expected tests per dimension-month. Stratified reweighting is a deployment protocol, not an experiment claimed to have been completed. A governance owner approves purpose, retention, and access; the evaluation team sees only the information necessary for its task.}{演示每个维度每月使用一个同质审核层，预期测试240次。分层重加权是部署协议，不声称已实施企业分层调研。治理责任人批准用途、保留期限和访问权限，评估人员仅接触工作所必需的信息。}
+
+\subpart{Data Cleaning and Missing Values}{数据清洗与缺失值处理}\par
+\bi{A cleaned total alone cannot explain whether a change came from operations, a merged duplicate, or a revised rule. We keep raw, cleaned, and analytical layers separate. The raw layer is append-only; the cleaned layer records corrections and unresolved conflicts; the analytical layer supplies counts, uncertainty, denominators, and rule versions. Provenance links these transformations to their source records \cite{prov}.}{只保留清洗后的汇总值，就难以区分业务变化、重复记录合并和规则修订带来的影响。本文将数据分为原始层、清洗层和分析层：原始层仅追加，清洗层记录修正及未解决冲突，分析层提供计数、不确定性、分母和规则版本。各层通过溯源关系与原始记录关联\cite{prov}。}
+\begin{enumerate}
+\item \bi{\textbf{Meaning and time.} Different time zones or event codes can make the same handoff appear inconsistent. Standardize these definitions and units before comparing records. A negative delay is flagged for investigation because it may indicate a clock error or a genuine early arrival.}{\textbf{统一语义与时间。} 时区或事件代码不同，可能使同一交接呈现为不一致。比较前先统一定义和单位；负延迟既可能来自时钟错误，也可能表示提前到达，应标记调查。}
+\item \bi{\textbf{Duplicate records.} Duplicate imports inflate the denominator, while conflicting copies leave the true result uncertain. Merge exact duplicates with the same event identifier, quarantine conflicts, and retain unresolved cross-system matches for review.}{\textbf{重复记录处理。} 重复导入会放大分母，内容冲突则使真实结果无法确定。相同事件编号的精确重复可合并；冲突记录隔离复核，跨系统歧义匹配保留待核查状态。}
+\item \bi{\textbf{Missing records.} Not-applicable items, lost logs, late reports, and open cases have different statistical meanings. Record the cause before forming denominators. Unfinished hiring requests and issue durations are right-censored rather than treated as completed cases.}{\textbf{缺失原因识别。} 不适用、日志丢失、迟报和未完成业务的统计含义不同，形成分母前应先区分原因。未完成招聘和工单的持续时间按右删失处理。}
+\item \bi{\textbf{Extreme observations.} Outages and long customs-related delays are precisely the failures the assessment needs to detect. Outlier flags prompt source checks; confirmed events remain in the data.}{\textbf{极端值核验。} 故障和异常长的通关延误正是评价需要识别的失效。异常标记用于发起来源核查，确认真实的事件保留在数据中。}
+\end{enumerate}
+\paragraph{\bi{Bounds for Missing Outcomes.}{缺失结果的区间估计。}}\par
+\bi{Dropping unknown outcomes assumes that the observed records represent the missing ones, which is questionable when failures are harder to record. We instead calculate the two extreme cases, assigning all unknowns to failure or success. With $N$ required items, $y$ known passes, and $m$ unknowns, the resulting bounds are}{删除未知结果，隐含已观测记录能够代表缺失记录的假设；失败越难记录时，这一假设尤其容易失效。本文分别将未知项全部视为失败和成功，计算通过率的下界与上界。若应检查$N$项，已知通过$y$项，未知$m$项，则}
+\begin{equation}p\in\left[\frac{y}{N},\frac{y+m}{N}\right].\label{eq:missing}\end{equation}\par
+\bi{In simulated month 40, the process anchor's observed-only rate is 45.96\%, whereas the defensible full-denominator interval is [37.92\%,55.42\%]. Missing failures are deliberately more frequent in months 40--41. An apparently precise complete-case estimate conceals this uncertainty. We show the filter's failure under that mechanism rather than silently imputing favorable outcomes.}{模拟第40月流程锚点的完整案例通过率为45.96\%，而使用全分母的有效边界为[37.92\%,55.42\%]。生成器在第40至41月故意使失败记录更容易缺失。完整案例估计看似精确，却掩盖了缺失机制的不确定性。本文保留该机制下滤波器的失效表现，不以有利填补隐藏问题。}
+\par\begin{table}[!htbp]\centering\caption{\bi{Record-conservation audit for the synthetic event file.}{模拟事件文件的记录守恒检查。}}
+\begin{tabular}{lr}\toprule
+\bi{Stage}{阶段}&\bi{Records}{记录数}\\\midrule
+\bi{Received records, including duplicates}{接收记录，含重复}&35,597\\
+\bi{Exact duplicates removed}{合并的精确重复}&1,037\\
+\bi{Unique expected audit events}{唯一预期审核事件}&34,560\\
+\bi{Observed outcomes}{结果已观测}&33,573\\
+\bi{Unknown outcomes retained}{保留的未知结果}&987\\
+\bi{Late flags retained (overlapping category)}{保留的迟报标记（可重叠）}&920\\\bottomrule
+\end{tabular}\end{table}\par
+\bi{The equations $35{,}597-1{,}037=34{,}560$ and $33{,}573+987=34{,}560$ are checked in the reproduction audit. Lateness is only flagged in this synthetic file; receipt-time forecasting is not tested. Monthly train/validation/test blocks are 1--24, 25--36, and 37--48. Parameters and delay choices never use test outcomes.}{复现审计检查$35{,}597-1{,}037=34{,}560$及$33{,}573+987=34{,}560$。模拟文件仅标记迟报，未检验按实际接收时间预测的效果。训练、验证、测试区间依次为第1--24、25--36、37--48月，参数及延迟选择不使用测试结果。}
+
+\pagepart{Dynamic Estimation and Forecasting of Port Data-Management Capability}{港口数据管理能力的动态估计与预测}
+\subpart{Measurement of People, Technology, and Process Capability}{人员、技术与流程能力的测量}
+\bi{This section estimates the current level of three port data-management capabilities and forecasts their next-period values from monthly audit records. People capability concerns staff's practical data-handling skills, technology capability concerns reliable information delivery, and process capability concerns the execution of quality and governance rules. A defined audit pass probability anchors each dimension; other indicators provide operational checks. The estimates represent underlying performance at the reference workload rather than one month's observed pass rate.
+
+The estimated profile identifies dimensions needing attention. Section 5 converts it into handoff reliability and maturity; Section 6 uses it as the baseline for improvement-project optimization. Next-period forecasts support monitoring. Recorded actions help describe delayed changes, while their causal effects remain unverified.}{港口需要掌握员工能否正确使用数据、技术服务能否可靠交付信息，以及管理流程能否保证数据准确并明确责任。本节根据月度审核记录，估计这三类数据管理能力的当前水平，并预测下一期能力。人员能力对应岗位实操中的数据处理技能，技术能力对应信息交付，流程能力对应质量与治理规则的执行情况。每一维以明确定义的审核通过概率确定测量尺度，其余指标用于业务核验。估计结果描述模型参考负荷下的潜在表现，而非某个月的直接通过率。
+
+这些结果用于回答两个管理问题：当前哪一类能力需要关注，以及近期变化如何影响下一期预测。第5节将能力向量转换为进出口交接可靠性和成熟度评分；第6节则以该向量作为比较改进项目的基准。预测结果支持持续监测，已记录的行动历史用于描述延迟变化，但不据此认定干预的因果效果。}\par
+\bi{Monthly pass rates fluctuate with audit size and workload, while training and system changes take time to affect operations. A static score confounds these sources of variation. Inspired by state-space filtering, LCF separates an evolving latent capability from noisy measurements and places action delay in the transition equation. The objective is to recover a useful capability trajectory and forecast it without treating short-run KPI changes as immediate intervention effects.}{月度通过率受审核样本量和负荷影响，培训及系统改造又需要时间才能产生效果。静态评分混合了这些变化来源。受状态空间滤波方法启发，LCF将持续演化的潜在能力与带噪观测分开，并在状态转移中显式引入行动延迟，以恢复可用于预测的能力轨迹，避免把短期KPI变化直接解释为干预效果。}\par
+\subpart{State-space Model}{状态空间模型的建立}
+\bi{The observations are monthly passes and audit denominators, accompanied by workload and dated actions. A capability estimate should remain on the probability scale, although the state transition needs an unrestricted variable. We express capability as a latent logit state and transform it back after filtering. The outputs are three capability estimates, one-step forecasts, and conditional intervals for use in CRM.}{观测数据包括月度通过数、审核分母、业务负荷和行动日期。能力需要表示在概率尺度上，状态转移又需要可以连续变化的无界变量。本文以对数几率描述潜在状态，滤波后再转回能力概率，得到三维能力估计、一步预测及条件区间，作为CRM的输入。}\par
+\par
+\bi{The logistic link maps an unrestricted latent state to a capability between zero and one:}{逻辑函数把无界潜在状态转化为零到一之间的能力：}
+\begin{equation}a_{dt}=\sigma(z_{dt})=\frac{1}{1+\exp(-z_{dt})}.\end{equation}\par
+\bi{In the transition below, $\phi_d$ is persistence, $\mu_d$ is the baseline logit, $\beta_d$ is action strength, and $Q$ is state-disturbance variance. $u_{dt}$ records an action, and $\delta_d$ gives its onset delay.}{以下转移式中，$\phi_d$为持续性，$\mu_d$为基准对数几率，$\beta_d$为行动强度，$Q$为状态扰动方差；$u_{dt}$记录行动量，$\delta_d$为起效延迟。}\par
+\bi{An action can start influencing operations after its implementation date, and its effect can persist across several months. We distinguish the onset delay from the subsequent three-month input window:}{一项行动可能在实施后若干月才影响业务，影响又会延续多个时期。本文将起效延迟与之后三个月的输入窗口分开描述：}
+\paragraph{Step 1: \bi{form the delayed input}{计算滞后有效行动量}}\par
+\bi{Use the onset delay and the normalized weights $(1,0.6,0.36)$ to combine three action months:}{按起效延迟及归一化权重$(1,0.6,0.36)$汇总三个月行动：}
+\begin{equation}\widetilde u_{dt}=\frac{\sum_{\ell=0}^{2}0.6^\ell u_{d,t-\delta_d-\ell}}{1+0.6+0.6^2},\qquad u_{dt}=0\quad(t<1).\end{equation}
+\paragraph{Step 2: \bi{evolve capability}{更新潜在能力}}\par
+\bi{The previous state, baseline reversion, and delayed action determine the next state:}{上一期状态、基准回归及滞后行动共同确定下一期潜在状态：}
+\begin{equation}z_{dt}=\phi_dz_{d,t-1}+(1-\phi_d)\mu_d+\beta_d\widetilde u_{dt}+\eta_{dt},\qquad \eta_{dt}\sim N(0,Q).\label{eq:state}\end{equation}
+
+\bi{The onset delay $\delta_d$ shifts the action input, while the three-month weights describe its subsequent contribution. Persistence carries earlier effects forward through the state equation. Monthly pass counts also depend on workload: the same capability can yield fewer passes under peak demand. We represent that distinction with the observation equation}{起效延迟$\delta_d$决定行动输入从何时开始，三个月权重描述此后的贡献；状态持续性则保留此前累积的影响。月度通过数还受负荷影响，同样的能力在旺季可能对应较低通过率。观测方程将这两者区分为}
+\begin{equation}Y_{dt}\mid z_{dt}\sim\operatorname{Binomial}(N_{dt},\sigma(z_{dt}-0.25c_t)),\qquad c_t=\sin(2\pi(t-1)/12).
+\end{equation}\par
+\bi{The workload coefficient $-0.25$ and process-noise standard deviation $\sqrt Q=0.08$ are declared scenario assumptions. They are not estimates from ICM. In deployment, estimate them using a pilot and audit-based workload contrasts.}{负荷系数$-0.25$及状态扰动标准差$\sqrt Q=0.08$是公开的情景假设，不是ICM估计值。部署时需利用试点和不同负荷下的独立审核估计。}
+\subpart{Capability Estimation by Filtering}{能力状态的滤波求解}\par
+\bi{The binomial observations and latent logit state have different scales. An empirical-logit transformation gives a Gaussian working approximation in which prediction and observation can be combined analytically. This makes sequential updating practical for the moderate audit counts used here. The following steps are applied to each dimension; its subscript is omitted for readability.}{二项计数与潜在对数几率状态处于不同尺度。经验对数几率变换提供高斯工作近似，使预测和观测能够解析地合并，便于对本实验的中等审核样本量逐期更新。以下步骤分别用于各维度，公式暂省略维度下标。}
+\thirdpart{Step 1: construct the observation and its variance}{Step 1：构造观测量及其方差}\par
+\bi{Given passes $Y_t$, observed trials $N_t$, and workload $c_t$, add a half-count correction to avoid infinite logits. $r_t$ is the workload-adjusted observation, and $R_t$ is its working variance:}{给定通过数$Y_t$、有效样本量$N_t$及负荷$c_t$，加入半计数修正以避免无穷对数几率。$r_t$为负荷调整后的观测量，$R_t$为其工作方差：}
+\begin{equation}r_t=\log\frac{Y_t+1/2}{N_t-Y_t+1/2}+0.25c_t,\qquad
+R_t=\frac{1}{Y_t+1/2}+\frac{1}{N_t-Y_t+1/2}.\end{equation}\par
+\bi{The approximation is $r_t\approx z_t+\epsilon_t$, with $\epsilon_t\sim N(0,R_t)$. Small or extreme counts require a binomial filter in a later deployment.}{工作近似为$r_t\approx z_t+\epsilon_t$，其中$\epsilon_t\sim N(0,R_t)$。实际部署中，样本过小或通过率极端时应采用二项滤波。}
+\thirdpart{Step 2: predict the state}{Step 2：计算先验状态}\par
+\bi{Given the preceding mean $m_{t-1}$ and variance $V_{t-1}$, apply the fitted persistence, baseline, action strength, and disturbance variance:}{给定前一期均值$m_{t-1}$和方差$V_{t-1}$，代入拟合的持续性、基准、行动强度及扰动方差：}
+\begin{equation}m_t^-=\phi m_{t-1}+(1-\phi)\mu+\beta\widetilde u_t,\qquad V_t^-=\phi^2V_{t-1}+Q.\end{equation}\par
+\bi{The implementation initializes $m_0=\mu$, $V_0=0.5$. These predictions use only information available before the current observation.}{实现中初始化$m_0=\mu$、$V_0=0.5$。先验预测只使用当期观测到达之前的信息。}
+\thirdpart{Step 3: update the state and report capability}{Step 3：更新状态并输出能力}\par
+\bi{A month with few audits should not outweigh a precise state prediction. Innovation variance $S_t$ combines prediction and observation uncertainty, and the Kalman gain $K_t$ determines the weight assigned to the new observation:}{审核样本较少的月份，不宜对原有状态预测赋予过大修正。创新方差$S_t$合并预测与观测的不确定性，Kalman增益$K_t$据此确定新观测的权重：}
+\begin{equation}S_t=V_t^-+R_t,\qquad K_t=\frac{V_t^-}{S_t}.\end{equation}\par
+\bi{Then combine the prediction and innovation $r_t-m_t^-$ to obtain posterior mean and variance:}{再将预测与创新$r_t-m_t^-$结合，得到后验均值与方差：}
+\begin{equation}m_t=m_t^-+K_t(r_t-m_t^-),\qquad V_t=(1-K_t)V_t^-.\end{equation}\par
+\bi{Finally convert the logit state into capability and a nominal 90\% conditional interval:}{最后将对数几率状态转为能力和名义90\%条件区间：}
+\begin{equation}\widehat a_t=\frac{1}{1+e^{-m_t}},\qquad
+I_t^{90}=\left[\frac{1}{1+e^{-(m_t-1.645\sqrt{V_t})}},\frac{1}{1+e^{-(m_t+1.645\sqrt{V_t})}}\right].\end{equation}\par
+\bi{A smaller raw residual does not necessarily imply a better model when observation precision varies by month. The innovation loss weights residuals by their variance and penalizes excessive uncertainty. For each candidate delay, fit $\theta=(\phi,\mu,\beta)$ on the training months, then select the delay using the same loss on the validation months:}{各月观测精度不同，原始残差较小并不必然意味着模型较好。创新损失按方差调整残差，同时限制过大的不确定性。对每个候选延迟，在训练月份估计$\theta=(\phi,\mu,\beta)$，再用验证月份的同一损失选择延迟：}
+\begin{equation}\widehat\theta_\delta=\arg\min_{\theta}\frac12\sum_{t=1}^{24}\left[\log S_t+\frac{(r_t-m_t^-)^2}{S_t}\right],\quad
+0.5\le\phi\le0.98,\;-2\le\mu\le2,\;0\le\beta\le0.6.\end{equation}
+\algo{1}{\bi{Estimate and forecast capabilities}{估计并预测能力}}{\bi{\textbf{Input:} monthly counts, workload, dated actions. Fit $(\phi,\mu,\beta)$ on months 1--24 by minimizing the Gaussian innovation negative log likelihood for each $\delta\in\{0,1,2,3\}$. Select delay on months 25--36. Freeze parameters, then filter and predict months 37--48 sequentially. \textbf{Output:} $\sigma(m_t)$, one-step predictions, and conditional intervals $\sigma(m_t\pm1.645\sqrt{V_t})$.}{\textbf{输入：}月度计数、负荷与行动日期。对每个$\delta\in\{0,1,2,3\}$，在1--24月最小化高斯创新负对数似然，估计$(\phi,\mu,\beta)$；用25--36月选择延迟；冻结参数后，逐期滤波并预测37--48月。\textbf{输出：}$\sigma(m_t)$、一步预测及条件区间$\sigma(m_t\pm1.645\sqrt{V_t})$。}}
+
+\subpart{Estimation Results and Model Comparison}{能力估计结果与模型比较}\par
+\bi{For test states indexed by $\mathcal T$, RMSE measures average capability error and coverage measures how often the known generating state falls within the reported interval:}{对索引集合$\mathcal T$中的测试状态，RMSE衡量平均能力误差，覆盖率衡量生成真值落入报告区间的比例：}
+\begin{equation}\operatorname{RMSE}=\sqrt{\frac{1}{|\mathcal T|}\sum_{(d,t)\in\mathcal T}(\widehat a_{dt}-a_{dt}^{\rm true})^2},\qquad
+\operatorname{Coverage}=\frac{1}{|\mathcal T|}\sum_{(d,t)\in\mathcal T}\mathbf1\{a_{dt}^{\rm true}\in I_{dt}^{90}\}.\end{equation}
+
+\noindent\emph{\bi{The following numerical experiments use synthetic data.}{以下数值实验均使用情景数据。}}\par
+\bi{Figure~\ref{fig:state} compares recovered capabilities with the known synthetic trajectories. Its three panels represent people, technology, and process; the shaded months form the common test set for the direct monthly, zero-delay, and delayed models compared below.}{图\ref{fig:state}比较估计能力与模拟真值，三个子图分别对应人员、技术和流程。阴影月份为共同测试集，以下直接月度估计、无起效延迟模型及含延迟模型均在该区间比较。}
+\bi{Bands are nominal 90\% intervals conditional on fitted parameters. Green lines separate training (1--24), validation (25--36), and shaded test months (37--48); all panels share the vertical range 0.20--0.80.}{阴影带为以拟合参数为条件的名义90\%区间。绿线划分训练期1--24月、验证期25--36月和灰底测试期37--48月；各面板共同纵轴范围为0.20--0.80。}
+\bodyfig{state}{\bi{Recovery of three-dimensional capability over 48 months}{48个月的三维能力恢复轨迹}}
+\par\begin{table}[!htbp]\centering\small\caption{\bi{Test-block errors and delay recovery.}{测试期误差与延迟恢复。}}
+\begin{tabularx}{\linewidth}{Yr}\toprule
+\bi{Quantity}{检验量}&\bi{Result}{结果}\\\midrule
+\bi{Filtered capability RMSE / raw monthly RMSE}{滤波能力RMSE / 原始月度RMSE}&\StateRMSE\ / \RawRMSE\\
+\bi{Delayed one-step RMSE / zero-delay one-step RMSE}{含延迟一步RMSE / 无延迟一步RMSE}&\ForecastRMSE\ / \ZeroRMSE\\
+\bi{Coverage of nominal 90\% conditional intervals}{名义90\%条件区间覆盖率}&\Coverage\%\\
+\bi{Selected delays (P,T,R); generating delays}{所选延迟（P,T,R）；生成延迟}&$(2,3,2)$; $(2,1,2)$\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{The lower pooled errors support using the filtered profile for subsequent scoring: the state estimate suppresses audit noise, and the delayed forecast better reflects the timing of actions. Figure~\ref{fig:state} also preserves dimension-specific trajectories, so improvement in the aggregate does not hide a weak process capability.}{总体误差下降支持将滤波能力画像用于后续评分：状态估计减少审核噪声，延迟预测更好地反映行动的时间效应。图\ref{fig:state}同时保留分维度轨迹，避免总体改善掩盖流程能力偏弱。}\par
+\subpart{Forecast Errors and Interval Coverage}{预测误差与区间覆盖率}
+\bi{Filtering reduces sampling noise, and validation-selected onset delays improve the pooled forecast error. Yet technology's selected delay is three months instead of the generating one month. A short, periodic action series does not reliably identify a delay: persistence, baseline, and action strength can compensate for each other. We therefore interpret the model as a forecasting instrument, not proof of a training or software intervention's causal effect.
+
+Only 24 of 36 test states lie inside nominal 90\% conditional intervals. Failure-dependent missingness, parameter uncertainty, and the Gaussian approximation all contribute plausible explanations; this experiment does not isolate their shares. Before operational scoring, use independent failure audits, full-denominator bounds, and a validation-calibrated predictive interval. Until coverage is acceptable on fresh data, publish the point estimate with an uncertainty warning rather than a confident certification.}{滤波降低了抽样噪声，经验证集选择的起效延迟改善了总体预测误差。然而，技术维度选择了三个月延迟，而生成真值仅一个月。短且周期性的行动序列不足以可靠识别延迟，持续性、基准水平及行动强度可能相互补偿。因此，该模型是预测工具，不能证明培训或软件改造的因果效应。
+
+36个测试状态中仅24个落入名义90\%条件区间。失败相关缺失、参数不确定性与高斯近似均可能造成这一结果，本实验未分解各因素的贡献。实际评分前，应增加失败记录独立复核、全分母边界和通过验证集校准的预测区间；在新数据覆盖率达标之前，必须披露不确定性，不能据此作出可靠认证。}
+
+\bi{Figure~\ref{fig:diagnostics} distinguishes state-estimation error from uncertainty due to missing audit outcomes. Each panel contains twelve test months; the lower row uses the full expected denominator, not an imputed success rate.}{图\ref{fig:diagnostics}区分状态估计误差与审核结果缺失带来的不确定性。每面板有12个测试月份，下排使用完整预期分母，不以填补成功率代替缺失边界。}
+\bi{The upper row compares filtered errors and conditional 90\% intervals with raw monthly errors; hollow diamonds mark missed truth. The lower row compares observed-only rates and full-denominator missing bounds with known generating probabilities, not recovered complete-data rates. These bounds are not confidence intervals. Gray bands mark enhanced failure-dependent missingness in months 40--41, without causal attribution. Panel vertical ranges differ.}{上排比较滤波误差及条件90\%区间与原始月度误差，空心菱形表示未覆盖真值。下排比较已观测成功率及全分母缺失边界与已知生成概率，后者不是恢复出的完整数据通过率；这些边界不是置信区间。灰带标记40--41月失败相关缺失增强，不作因果归因；各面板纵轴范围不同。}
+\bodyfig{diagnostics}{\bi{State-estimation errors and missing-outcome bounds}{状态估计误差与缺失结果边界}}
+\pagepart{Maturity Assessment Based on Chain Reliability}{基于业务链可靠性的成熟度评价}
+\subpart{Chain Reliability as a Maturity Measure}{成熟度与业务链可靠性}
+\par
+\bi{A capability profile describes resources inside the port, but customers experience the success or failure of an entire handoff. We define maturity through the probability that the required information is correct and available by the deadline. This connects the assessment to an outcome that can be independently audited.}{能力画像描述港口内部的资源状态，客户实际感受到的却是整次交接是否成功。本文以必需信息准确且按时可用的概率定义成熟度，使评价对应能够独立审核的业务结果。}
+\bi{A weighted capability sum does not specify that success probability. Multiplying stage success rates introduces an independence assumption that shared outages can violate. CRM models the whole-chain outcome directly; a logistic response keeps predictions in $[0,1]$, while interactions and environmental terms account for complementary capabilities, workload, and shared failures.}{能力加权和无法直接给出上述成功概率，环节成功率相乘又引入了容易被共享故障破坏的独立性假设。CRM直接拟合整条业务链的结果，以逻辑函数将预测限制在$[0,1]$内，再用交互项和环境项描述能力互补、负荷与共享故障。}\par
+\subpart{Reliability Model and Maturity Score}{可靠性模型与成熟度评分}
+\bi{A trained employee still needs an assigned data owner and a usable correction process to resolve an exception. The people--process interaction represents this complementarity. Workload and outage terms distinguish changes in operating conditions from changes in capability. For the capability vector $a$, workload $c$, and outage flag $o$, we define each chain probability by}{受过训练的员工仍需要明确的数据责任人和可执行的纠错流程，才能处理业务异常。人员与流程交互项描述这种互补关系；负荷和故障项则区分运营环境变化与能力变化。对能力向量$a$、负荷$c$及故障标记$o$，定义各业务链概率为}\par
+\begin{equation}
+\operatorname{logit}p_k(a,c,o)=b_{0k}+b_{Pk}a_P+b_{Tk}a_T+b_{Rk}a_R+h_ka_Pa_R+\gamma_kc+\psi_ko.
+\label{eq:crm}
+\end{equation}\par
+\bi{Here $b_{0k}$ is the chain intercept, $b_{Pk},b_{Tk},b_{Rk}$ are capability coefficients, $h_k$ is the interaction coefficient, and $\gamma_k,\psi_k$ measure workload and outage effects. With linear predictor $\eta_k$ equal to the right-hand side, the probability is $p_k=1/(1+\exp(-\eta_k))$.}{其中$b_{0k}$为截距，$b_{Pk},b_{Tk},b_{Rk}$为三维能力系数，$h_k$为交互系数，$\gamma_k,\psi_k$分别表示负荷与故障效应。将右侧线性预测量记为$\eta_k$，完整概率为$p_k=1/(1+\exp(-\eta_k))$。}\par
+\bi{An unconstrained fit could associate stronger skills or governance with lower success because of finite-sample noise. Within the declared model domain, we require nonnegative capability and interaction coefficients and nonpositive workload and outage effects: $b_{Pk},b_{Tk},b_{Rk},h_k\ge0$, $\gamma_k,\psi_k\le0$. The resulting marginal effects include}{有限样本噪声可能使无约束拟合给出“技能或治理越好，成功率反而越低”的关系。本文在所设模型域内约束能力与交互系数非负，负荷与故障系数非正，即$b_{Pk},b_{Tk},b_{Rk},h_k\ge0$、$\gamma_k,\psi_k\le0$。由此得到边际影响}
+\begin{equation}
+\frac{\partial p_k}{\partial a_P}=p_k(1-p_k)(b_{Pk}+h_ka_R)\ge0,
+\qquad \frac{\partial p_k}{\partial a_R}=p_k(1-p_k)(b_{Rk}+h_ka_P)\ge0.
+\end{equation}\par
+\bi{These inequalities prevent an estimated association from recommending deliberately worse skills or governance within the model domain. They are structural restrictions, not empirical proof that every real intervention helps.}{上述限制避免模型在适用域内建议故意降低技能或治理水平。它们属于结构约束，不能证明现实中所有干预都有效。}
+\paragraph{\bi{Reference and operational scores.}{参考分与运营分。}}\par
+\bi{Ports assessed during peak demand or an outage should not be compared directly with those assessed under normal conditions. We calculate a reference score at fixed workload and outage settings, alongside an operational score using the current settings:}{旺季或故障期间的港口不宜直接与正常运营时的港口比较。本文固定负荷与故障条件计算参考分，同时按当期条件计算运营分：}\par
+\begin{equation}
+M^{\rm ref}(a)=100\sum_{k=1}^{2}\omega_kp_k(a,0,0),\qquad
+M^{\rm op}_t=100\sum_{k=1}^{2}\omega_kp_k(a_t,c_t,o_t),\quad\omega=(0.6,0.4).
+\end{equation}\par
+\bi{Reference maturity fixes workload and outage conditions. Operational performance retains the actual environment and must be reported alongside it. The demonstration weights follow an assumed import/export transaction mix, not loss severity; monetary loss weights appear separately in optimization. During a real outage, a stable reference score must never conceal an operational red alert.
+
+We report a continuous score and three-dimensional capability profile. No supported level boundaries are supplied by ICM, so we do not invent five maturity grades. A future certified level would require both an empirically calibrated score threshold and mandatory security, recovery, ownership, and lifecycle checks. A high average cannot offset a failed critical gate. NIST's historical 2018 framework informs the risk-management structure, not a numeric maturity conversion \cite{nist}.}{参考成熟度固定负荷与故障状态；运营表现保留实际环境，必须同时报告。演示权重取自假设的进出口交易结构，而非损失严重度，货币损失权重在优化中另行使用。真实故障发生时，稳定的参考分数不能掩盖运营红色告警。
+
+本文报告连续分数和三维能力画像。ICM未提供有依据的等级边界，因此不编造五级成熟度。未来认证等级应同时满足经经验校准的分数阈值，以及安全、恢复、责任和生命周期条件，高平均分不能抵消关键门槛失败。NIST的2018年历史框架仅用于支持风险管理结构，不用于数值换算\cite{nist}。}
+\subpart{Parameter Estimation and Score Calculation}{参数估计与评分计算}
+\paragraph{Step 1: \bi{construct predictors and split samples}{构造特征并划分样本}}\par
+\bi{The interaction and environment terms must enter the fitted design matrix as well as the stated equation. For profile $i$, construct $X_i=(1,a_{Pi},a_{Ti},a_{Ri},a_{Pi}a_{Ri},c_i,o_i)$. Separate 1,200 training profiles, 300 validation profiles, and 300 test profiles before fitting, so that parameter selection does not use test outcomes. Chain $k$ has binary response $y_{ik}$.}{交互与环境因素需要同时体现在方程和拟合特征中。对能力画像$i$构造$X_i=(1,a_{Pi},a_{Ti},a_{Ri},a_{Pi}a_{Ri},c_i,o_i)$；拟合前划分1,200个训练、300个验证和300个测试能力画像，使参数选择不使用测试结果。业务链$k$对应二元结果$y_{ik}$。}\par
+\paragraph{Step 2: \bi{fit the constrained response}{拟合约束响应}}\par
+\bi{Capability variables and their interaction can share predictive information, making coefficients unstable. Ridge regularization controls coefficient size, with its strength chosen from validation performance. For each chain and $\lambda\in\{0,0.001,0.01\}$, L-BFGS-B minimizes the penalized training log loss below. The seven coefficients follow the order of $X_i$; the intercept is unpenalized:}{能力变量及交互项可能包含重叠的预测信息，使系数估计不稳定。岭惩罚限制系数大小，惩罚强度由验证表现选择。对每条业务链及$\lambda\in\{0,0.001,0.01\}$，用L-BFGS-B最小化以下训练目标。七个系数按$X_i$排列，截距不参与惩罚：}\par
+
+\begin{equation}
+\widehat\theta_{k,\lambda}=\arg\min_{\theta_k\in\mathcal B}\left\{\frac1{1200}\sum_{i\in\mathcal D_{\rm train}}\big[\log(1+e^{X_i\theta_k})-y_{ik}X_i\theta_k\big]+\frac\lambda2\sum_{j=1}^{6}\theta_{kj}^2\right\}.
+\end{equation}
+\bi{The numerical domain is $\mathcal B=[-8,3]\times[0,6]^4\times[-4,0]\times[-6,0]$. These bounds implement the sign restrictions and stabilize estimation in this demonstration.}{数值约束域为$\mathcal B=[-8,3]\times[0,6]^4\times[-4,0]\times[-6,0]$，用于实现符号限制并稳定演示中的估计。}\par
+\paragraph{Step 3: \bi{select, freeze, and evaluate}{选择参数、冻结模型并评价}}\par
+\bi{Choose the penalty with minimum validation Brier score for each chain. Freeze its coefficients, predict the test outcomes, and compare with the training-frequency baseline using the metrics below. Apply the same frozen mapping to the LCF profile to calculate reference and operational scores.}{按每条业务链的验证Brier分数选择惩罚，随后冻结系数，对测试结果预测，并按下述指标与训练频率基线比较。使用同一冻结映射处理LCF能力画像，计算参考分与运营分。}\par
+\paragraph{Step 4: \bi{propagate uncertainty}{传递不确定性}}\par
+\bi{A single maturity score conceals uncertainty inherited from both state estimation and response fitting. Generate 1,000 joint state/coefficient draws and calculate a score for each. Report the 5th and 95th percentiles, then forward two whole draws near those percentiles to RIP as additional planning cases.}{单一成熟度分数无法反映状态估计和可靠性拟合传来的误差。生成1,000组状态与系数联合抽样，逐组计算成熟度，并报告5\%和95\%分位数；再将接近两个分位数的完整参数组合传入RIP，作为附加规划情景。}\par
+
+\subpart{Reliability Estimates and Calibration}{可靠性评价结果与概率校准}\par
+\bi{Correct classification alone cannot tell whether a predicted 90\% success rate is credible. We assess the probabilities with Brier score and log loss, which penalize inaccurate predictions and overconfidence differently \cite{scoring}. For $n$ held-out handoffs, $p_i$ is predicted success and $y_i\in\{0,1\}$ is the observed outcome; lower values are better:}{仅看分类是否正确，无法判断预测90\%成功率是否可信。本文采用Brier分数和对数损失，分别衡量概率误差及过度自信预测的代价\cite{scoring}。对$n$项留出交接，$p_i$为预测成功率，$y_i\in\{0,1\}$为观测结果；两项指标均越小越好：}
+\begin{align}\operatorname{Brier}&=\frac1n\sum_{i=1}^{n}(p_i-y_i)^2,\\
+\operatorname{LogLoss}&=-\frac1n\sum_{i=1}^{n}\left[y_i\log p_i+(1-y_i)\log(1-p_i)\right].\end{align}
+
+\noindent\emph{\bi{The following numerical experiments use synthetic data.}{以下数值实验均使用情景数据。}}\par
+\bi{The pilot generator draws 1,800 independent capability profiles uniformly over $[0.2,0.9]^3$, workload over $[-1,1]$, and an outage indicator with probability 0.15. It generates two Bernoulli outcomes per profile from specified coefficients. Broad profiles are needed because one port's short history cannot identify all interactions. These profiles are experimental test cases, not a survey of 1,800 ports.}{试点生成器独立生成1,800个能力画像，三维能力均匀分布于$[0.2,0.9]^3$，负荷取自$[-1,1]$，共享故障概率为0.15；按给定系数生成每能力画像两项Bernoulli结果。广泛能力画像用于提供识别交互项所需的变异，不能把它们解释为对1,800个港口的实地调查。}\par
+\bi{The constant-frequency baseline and CRM are evaluated on the same 300 test profiles. Calibration summaries contain only four import bins and five export bins; unequal bin counts limit their precision. We retain the numerical scoring results below rather than a sparse standalone calibration plot.}{常数频率基线与CRM均使用相同的300个测试能力画像。校准汇总仅包含进口4箱、出口5箱，分箱样本量不均限制其精度；下表保留数值评分结果，不另占篇幅展示稀疏校准图。}
+\par\begin{table}[!htbp]\centering\small\caption{\bi{Independent synthetic test performance ($n=300$ per chain).}{独立模拟测试表现（每条业务链$n=300$）。}}
+\begin{tabular}{lrrrr}\toprule
+\bi{Chain}{业务链}&Brier&\bi{Constant baseline}{常数基线}&\bi{Log loss}{对数损失}&\bi{True-$p$ RMSE}{真概率RMSE}\\\midrule
+\bi{Import}{进口}&0.2289&0.2506&0.6480&0.0742\\
+\bi{Export}{出口}&0.2114&0.2549&0.6117&0.0294\\\bottomrule
+\end{tabular}\end{table}\par
+\bi{Brier score is $n^{-1}\sum_i(p_i-y_i)^2$; the baseline uses the training success frequency. Both fitted chains improve on that baseline. The import model's stronger regularization shrinks coefficients and gives a larger true-probability error. Calibration bins are descriptive, with unequal sample sizes; they do not establish cross-port validity. Proper scoring rules discourage confident but inaccurate probabilities \cite{scoring}.}{Brier分数为$n^{-1}\sum_i(p_i-y_i)^2$，基线使用训练期成功频率。两条拟合业务链都优于基线。进口模型采用更强正则化，系数收缩后真概率误差较大。校准分箱样本量不同，图形属于描述性检查，不能证明跨港口有效性。适当评分规则用于惩罚过度自信但不准确的预测\cite{scoring}。}\par
+\subpart{Uncertainty in Maturity Scores}{成熟度评分的不确定性}
+\bi{The final filtered profile is $(0.4823,0.5384,0.4070)$, giving reference maturity \BaseMaturity. We propagate 1,000 draws of the final Gaussian state and coefficient vectors based on the observed-information approximation. Within-coefficient covariances are retained; signs are projected onto the permitted domain. The resulting 5th--95th percentile range is [39.50,52.71]. It is an approximate uncertainty envelope, not a calibrated 90\% confidence interval. State-parameter uncertainty, shrinkage bias, and cross-chain coefficient dependence remain omitted.
+
+Two whole joint draws nearest the 5th and 95th score percentiles are forwarded to portfolio stress testing. Selecting a few representative draws is tractable, but does not guarantee coverage of every adverse parameter combination.}{期末滤波能力画像为$(0.4823,0.5384,0.4070)$，参考成熟度为\BaseMaturity。使用期末高斯状态与观测信息矩阵近似的系数分布生成1,000组抽样，保留各系数向量内部协方差，再投影到符号约束域。所得5\%--95\%分位范围为[39.50,52.71]，仅是近似不确定性范围，并非已校准的90\%置信区间；它仍未包含状态参数不确定性、收缩偏差与跨链系数相关性。
+
+选择接近评分5\%和95\%分位的两组完整联合抽样，用于项目组合压力测试。少量代表性抽样便于求解，但不能覆盖所有不利参数组合。}
+
+\pagepart{Robust Optimization of Improvement Projects}{改进项目组合的稳健优化}
+\subpart{Investment Priorities under Limited Resources}{资源约束下的投资选择}
+\bi{A maturity deficit does not determine which project should be funded first. Equal spending overlooks unequal response curves; nominal optimization can exhaust a budget when costs rise. RIP connects the CRM service probabilities to incremental avoided loss and chooses a feasible menu against a declared scenario set. Diminishing returns discourage overconcentration, delays reward timely delivery, and dependencies prevent investment in integration without governance support.}{成熟度缺口本身不能决定项目优先级。等额投入忽略响应曲线差异，名义优化则可能在成本上涨后突破预算。RIP将CRM服务概率转换为增量避免损失，在明确的情景集合中选择可行组合；边际收益递减抑制过度集中，延迟机制体现及时实施的价值，项目依赖防止缺少治理基础时直接推进集成。}\par
+\subpart{Portfolio Optimization Model}{项目组合优化模型的建立}
+\bi{Project decisions need to specify both the amount invested and when work begins. Using the current capability state and fitted chain probabilities, we calculate each project combination's service improvement, avoided loss, cost, and staff demand. Budgets and project dependencies restrict feasible combinations; the smallest net benefit across planning scenarios determines their ranking.}{项目决策需要同时确定投入多少以及何时启动。本文从当前能力状态和拟合的业务链概率出发，计算各组合带来的服务改善、避免损失、成本和人力需求；预算与项目依赖限制可行组合，以各规划情景中最小的净收益进行排序。}\par
+\thirdpart{Project Effects and Implementation Delays}{项目收益与实施滞后}\par
+\bi{Training, hiring, and integration cannot deliver their full benefit on the start date. The response model separates the committed investment from the portion effective in quarter $q$. Project $j$ has level $x_j\in\{0,1,2,3\}$ and start quarter $s_j\in\{1,2\}$ when active.}{培训、招聘和集成通常无法在启动时立即产生全部收益。响应模型区分已投入资源与截至第$q$季度已经发挥作用的部分。项目$j$的投入级别为$x_j\in\{0,1,2,3\}$，启动季度为$s_j\in\{1,2\}$。}
+\paragraph{Step 1: \bi{calculate effective investment}{计算有效投入}}\par
+\bi{Let $d_j$ be the project-specific delay and $\Delta_s$ the extra scenario delay. $f_{jq}^{(s)}$ is the realized fraction of an investment by quarter $q$, rising over two quarters; $E_{jq}^{(s)}$ is its effective amount:}{令$d_j$为项目自身延迟，$\Delta_s$为情景额外延期；$f_{jq}^{(s)}$表示截至$q$季度在两季度内逐步实现的投入比例，$E_{jq}^{(s)}$为有效投入：}
+\begin{equation}f_{jq}^{(s)}=\min\left\{1,\max\left(0,\frac{q-s_j-d_j-\Delta_s+1}{2}\right)\right\},\qquad E_{jq}^{(s)}=x_jf_{jq}^{(s)}.\end{equation}
+\paragraph{Step 2: \bi{calculate diminishing capability gains}{计算能力增量}}\par
+\bi{The first increment can address a large unresolved gap, while later increments face fewer remaining opportunities. A saturating exponential represents this diminishing return. With gain ceiling $G_j^{(s)}$ and conversion rate $k_j$, the response and derivatives are}{初始投入可以填补较大的未解决缺口，后续追加投入面对的剩余改善空间逐渐减少。本文以饱和指数函数描述边际收益递减，给定情景改善上限$G_j^{(s)}$和转化系数$k_j$，响应及导数为}
+\begin{align}g_j^{(s)}(E)&=G_j^{(s)}(1-e^{-k_jE}),\\
+\frac{dg_j^{(s)}}{dE}&=G_j^{(s)}k_je^{-k_jE}>0,\qquad
+\frac{d^2g_j^{(s)}}{dE^2}=-G_j^{(s)}k_j^2e^{-k_jE}<0.\end{align}\par
+\bi{Thus additional investment increases capability, but each increment contributes less than the previous one.}{因此，追加投入仍提高能力，但每次增量的贡献逐渐减少。}
+\paragraph{Step 3: \bi{combine project contributions}{汇总项目贡献}}\par
+\bi{Let $m_{jd}$ be project $j$'s allocation to capability $d$, and $a_d^{0,(s)}$ the scenario baseline. Add realized contributions once and cap the probability-scale state:}{令$m_{jd}$为项目$j$对能力$d$的作用比例，$a_d^{0,(s)}$为情景基准；对已实现贡献仅累加一次，并限制概率尺度状态：}
+\begin{equation}a_{dq}^{(s)}(x)=\min\left\{0.995,\max\left[0,a_d^{0,(s)}+\sum_jm_{jd}g_j^{(s)}(E_{jq}^{(s)})\right]\right\}.\label{eq:gain}\end{equation}
+
+\bi{The capability increment is measured against the same baseline $a^0$ at every quarter. Adding the total cumulative gain repeatedly to the preceding quarter would create artificial growth. An equivalent recursive implementation must add only $g_j(E_{jq})-g_j(E_{j,q-1})$.}{每季度都相对于同一个基准$a^0$计算能力增量。把累计改善量反复加到上一季度能力上，会产生虚假增长。等价递推实现只能加入$g_j(E_{jq})-g_j(E_{j,q-1})$。}
+\thirdpart{Objective Function and Constraints}{目标函数与约束条件}
+\paragraph{Step 1: \bi{calculate quarterly project costs}{计算季度项目成本}}\par
+\bi{For scenario cost multiplier $\kappa_s$, investment $x_j$, and activation $y_j=\mathbf1(x_j>0)$, the cost includes a fixed 0.15-unit startup charge:}{给定情景成本倍率$\kappa_s$、投入$x_j$及启动变量$y_j=\mathbf1(x_j>0)$，季度成本包含每项目0.15单位固定启动费：}
+\begin{equation}C_q^{(s)}(x)=\sum_{j:s_j=q}\kappa_s(x_j+0.15y_j).\end{equation}
+\paragraph{Step 2: \bi{calculate discounted net benefit}{计算折现净收益}}
+
+\bi{A higher maturity score has no direct monetary unit. We first convert the increase in chain success into avoided failures using transaction volume and failure loss, then discount future benefits and subtract project costs:}{成熟度分数本身不具有货币单位。先按交易量和单次失败损失，将成功概率增量转换为避免损失，再折现未来收益并扣除项目成本：}\par
+\begin{equation}
+Z_s(x)=\sum_{q=1}^{4}\frac{\sum_k V_{kq}L_{kq}^{(s)}[p_k(a_q^{(s)}(x),0,0)-p_k(a^{0,(s)},0,0)]}{(1+r)^{q-1}}
+-\sum_{q=1}^{2}\frac{C_q^{(s)}(x)}{(1+r)^{q-1}}.
+\end{equation}\par
+\bi{Here $V$ is the quarterly count and $L$ the loss per failed handoff; their product is converted to USD 10,000 units. Safety and legal obligations are not traded against this monetary benefit. With $y_j=\mathbf1(x_j>0)$, solve}{其中$V$是季度业务量，$L$是单次交接失败损失，二者乘积换算为万美元。安全和法定义务不与货币收益交换。令$y_j=\mathbf1(x_j>0)$，求解}
+\paragraph{Step 3: \bi{optimize the worst-case feasible return}{求解稳健优化目标}}\par
+\bi{Selecting only the largest nominal benefit leaves a portfolio exposed to cost overruns and weaker effects. We introduce $v$ as the lower bound on net benefit across all declared scenarios and maximize it. Quarterly budget $B_q$, staff capacity $H_q$, unit staff demand $h_j$, and project dependencies enter the constraints:}{仅按名义收益选优，组合可能在超支或效果减弱时难以实施。令$v$为所有声明情景下净收益的下界，并最大化该下界。季度预算$B_q$、可用人力$H_q$、单位投入人力需求$h_j$和项目依赖共同构成约束：}
+\begin{align}
+\max_{x,s,v}\quad &v,&v&\le Z_s(x)\quad(\forall s\in\mathcal S),\\
+\sum_{j:s_j=q}\kappa_s(x_j+0.15y_j)&\le B_q,&\sum_{j:s_j=q}h_jx_j&\le H_q,\\
+y_{\rm integration}&\le y_{\rm governance},&s_{\rm governance}&\le s_{\rm integration}\quad\text{if integration active},\\
+x_{\rm recovery}&\ge1.&&
+\end{align}\par
+\bi{The first line maximizes the minimum scenario return. The second enforces quarterly budget and staffing capacity. The third requires a governance foundation before or alongside integration. The final line guarantees a minimum recovery project.}{第一行最大化各情景净收益的下界；第二行限制每季度预算与人力；第三行要求集成之前或同期开启治理基础；最后一行保证最低恢复投入。}\par
+\bi{A recovery floor is an explicit scenario management decision, not a universal standard. Governance produces an initial usable foundation in its start quarter, so simultaneous integration is allowed in the demonstration. If real acceptance must precede integration, replace this with a strict commissioning dependency. The staffing constraint is a capacity proxy for workload and disruption; no separate downtime guarantee is claimed.}{恢复投入下限是明确的情景管理决策，不是通用标准。演示假设治理项目在启动季度即可形成初步基础，因此允许同季度开始集成。如果现实中必须先完成验收，应改为严格的前置依赖。人力约束代理工作量与中断影响，本文不声称提供独立停机时长保证。}
+
+\thirdpart{Parameter and Scenario Settings}{参数设置与情景设计}
+\noindent\emph{\bi{The following numerical experiments use synthetic data.}{以下数值实验均使用情景数据。}}
+\par\begin{table}[!htbp]\small\centering\caption{\bi{Declared project-response assumptions. Costs are USD 10,000 units.}{公开的项目响应假设；成本单位为1万美元。}}
+\begin{tabularx}{\linewidth}{Yrrrrl}\toprule
+\bi{Project}{项目}&$G_j$&$k_j$&$d_j$&$h_j$&$m_j=(P,T,R)$\\\midrule
+\bi{Training}{培训}&.16&.80&1&1.2&$(1,0,0)$\\
+\bi{Hiring}{招聘}&.18&.55&2&.7&$(1,0,0)$\\
+\bi{Integration}{系统集成}&.22&.60&1&1.5&$(0,1,0)$\\
+\bi{Governance}{数据治理}&.24&.75&0&1.0&$(0,0,1)$\\
+\bi{Recovery}{恢复能力}&.12&.65&1&.8&$(0,.65,.35)$\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{Budgets are $(7,4)$ units in the first two quarters; staff capacities are $(8,6)$ units. The fixed start cost is 0.15 per active project, and the quarterly discount rate is 2\%. Each quarter has 6,000 import and 4,000 export handoffs with failure losses of USD 40 and USD 60. These are test assumptions, not quotations or industry benchmarks. The model can leave funds unused when additional projects reduce worst-case net benefit.}{前两季度预算为$(7,4)$单位，人力容量为$(8,6)$单位；每个启动项目固定成本0.15单位，季度折现率2\%。每季度进口、出口交接量分别为6,000和4,000，单次失败损失分别为40和60美元。以上全部为测试假设，并非报价或行业基准。当新增项目降低最坏净收益时，模型可以保留预算不使用。}
+\par\begin{table}[!htbp]\small\centering\caption{\bi{Planning scenarios. Joint uncertainty adds two complete sampled state/coefficient configurations.}{规划情景；另加入两组完整联合状态与系数抽样。}}
+\begin{tabularx}{\linewidth}{Yrrrr}\toprule
+\bi{Scenario}{情景}&\bi{Cost}{成本}&\bi{Gain}{效果}&\bi{Extra delay}{额外延迟}&\bi{Value}{损失价值}\\\midrule
+\bi{Nominal}{名义}&1.00&1.00&0&1.00\\
+\bi{Overrun}{超支}&1.20&.90&0&1.00\\
+\bi{Delay}{延期}&1.10&.80&1&1.00\\
+\bi{Lower avoided loss}{低避免损失}&1.05&.85&0&.80\\
+\bi{Joint draw, low / high score}{低分/高分联合抽样}&1.10&.85&0&.90\\\bottomrule
+\end{tabularx}\end{table}\par
+\subpart{Enumeration of Feasible Portfolios}{基于枚举法的组合求解}
+\bi{The menu contains only five projects and a few levels and start dates. Exhaustive enumeration is therefore tractable and verifies the best feasible choice without a heuristic stopping rule. The calculation proceeds as follows:}{项目只有五类，投入级别和启动时间也较少，全部组合可以逐一评价。枚举求解能够直接核验有限组合集合中的最优可行方案，无需依赖启发式算法的停止条件，计算流程如下：}\par
+\paragraph{Step 1: \bi{enumerate candidate menus}{枚举候选组合}}\par
+\bi{For each of five projects, enumerate seven options: off, or investment level 1, 2, or 3 starting in quarter 1 or 2. Their Cartesian product gives $7^5=16{,}807$ menus.}{每个项目包含七个选项：不启动，或投入1、2、3单位并在第一或第二季度启动。五项目选项的笛卡尔积得到$7^5=16{,}807$种组合。}\par
+\paragraph{Step 2: \bi{screen feasible menus}{筛选可行组合}}\par
+\bi{Compute quarterly spending and staff use, then check every budget scenario, governance dependency, and the recovery floor. The 20\% overrun envelope is the largest planning cost multiplier; 1,418 menus remain feasible.}{计算各季度支出和人力，检查所有预算情景、治理依赖和恢复下限。规划成本最大上浮20\%，筛选后保留1,418个可行组合。}\par
+\paragraph{Step 3: \bi{evaluate delayed scenario returns}{计算延迟情景收益}}\par
+\bi{For each feasible menu and scenario, evaluate effective investment, capability gain, chain success, avoided loss, and discounted net benefit in that order using the equations above. Record the minimum scenario return for each menu.}{对每个可行组合及情景，依次按上述公式计算有效投入、能力增量、业务链成功率、避免损失和折现净收益，记录该组合的最小情景净收益。}\par
+\paragraph{Step 4: \bi{select and independently stress-test}{选优并独立压力测试}}\par
+\bi{Select the menu with the greatest minimum return and output its levels, start dates, cost, and staffing. Exhaustive evaluation gives zero optimality gap within this finite menu. Freeze the selected menu before the 200 wider held-out shocks; record feasibility separately from return and regret.}{选择最小情景收益最大的菜单，输出投入、启动时间、成本与人力。穷举使有限组合集合内的最优性间隙为零。随后冻结组合，进行200个更宽范围的留出冲击测试，并分别记录可行性、收益和后悔值。}\par
+\subpart{Optimal Portfolio and Strategy Comparison}{最优组合与配置策略比较}
+\input{results/plan_table.tex}\par
+\bi{The selected portfolio spends \PlanCost\ units (USD \PlanDollars) in quarter 1, requiring five capacity units. A 20\% overrun gives 6.54 cost units, below the seven-unit budget. The nominal final maturity is \FinalMaturity, a \MaturityGain-point increase. This menu favors governance, training, and required recovery under the assumed horizon and returns; zero hiring or integration is not a recommendation to eliminate those functions.}{选定组合在第一季度支出\PlanCost\ 单位（\PlanDollars\ 美元），需要五个人力容量单位。成本上涨20\%时支出6.54单位，低于7单位预算。名义期末成熟度为\FinalMaturity，提高\MaturityGain\ 分。该结论仅在给定周期和响应假设下偏向治理、培训和必要恢复，招聘或集成为零不意味着应取消相应职能。}
+
+\thirdpart{Returns under Planning Scenarios}{规划情景下的收益比较}
+
+\bi{Figure~\ref{fig:portfolio} locates the robust and nominal optima within the feasible menu space. Nominal optimization achieves a higher nominal return but sacrifices worst-scenario return and fails the full planning constraints.}{图\ref{fig:portfolio}将稳健与名义最优方案置于可行菜单空间中。名义优化获得更高名义收益，但牺牲最坏情景收益，且不满足完整规划约束。}
+\bi{The plot shows 2,133 nominal-feasible menus: 1,418 robust-feasible and 715 nominal-only feasible; 14,674 nominal-infeasible menus are excluded. Returns are in synthetic USD 10,000 units, and dashed projections locate the two optima.}{图中显示2,133个名义可行菜单：1,418个稳健可行、715个仅名义可行；不显示14,674个名义不可行菜单。收益单位为模拟万美元，虚线投影定位两种最优方案。}
+\bodyfig{portfolio}{\bi{Nominal--worst-case return trade-offs across feasible portfolios}{可行组合的名义与最坏情景收益权衡}}\par
+\bi{Equal allocation gives each project one unit in quarter 1. Greedy search starts from mandatory recovery and adds the feasible one-level increment with greatest nominal gain, also in quarter 1. Nominal optimization uses nominal budgets and returns; robust optimization uses every planning scenario and the 20\% cost envelope.}{等额方案在第一季度向每项目投入一单位。贪心方案从恢复下限开始，反复选择名义增益最大且可行的单级增量，同样在首季启动。名义优化使用名义预算与收益，稳健优化使用全部规划情景和20\%成本上浮边界。}
+\input{results/comparison_table.tex}
+\thirdpart{Portfolio Performance under Joint Shocks}{联合冲击下的组合表现}\par
+\bi{A portfolio can appear robust if it is tested only on the scenarios that determined its selection. We evaluate the frozen decisions on 200 wider held-out shocks. Severity $u\sim U(0,1)$ changes cost to $1+0.3u$ and effects to $1-0.3u$; extra delay has probability 0.3, and value is uniform on $[0.75,1.15]$. Half the cases use $G\min(kE,0.85)$ instead of the exponential response, testing sensitivity to the assumed curve as well as its parameters.}{仅在选优时使用的情景中检验，容易高估组合的稳健性。本文冻结决策后，另设200个范围更宽的留出冲击：严重度$u\sim U(0,1)$使成本变为$1+0.3u$、效果变为$1-0.3u$；额外延期概率为0.3，价值倍率均匀分布于$[0.75,1.15]$。一半情景以$G\min(kE,0.85)$替代指数响应，同时检验曲线形式和参数变化。}\par
+\bi{For a feasible decision $x$ in scenario $s$, regret is the difference from the best menu that is feasible in that same scenario:}{对情景$s$中的可行决策$x$，后悔值为同一情景最优可行组合与该决策净收益之差：}
+\begin{equation}\operatorname{Regret}_s(x)=\max_{x'\in\mathcal F_s} Z_s(x')-Z_s(x),\qquad x\in\mathcal F_s.\end{equation}\par
+\bi{Here $\mathcal F_s$ is the scenario-specific feasible set. Infeasible decisions are counted as violations rather than assigned regret.}{其中$\mathcal F_s$为情景可行集；不可行决策计为违约，不赋予后悔值。}
+\input{results/heldout_table.tex}\par
+\bi{Figure~\ref{fig:paired} compares returns draw by draw under the same shocks. Gold diamonds identify cases where only the robust plan remains feasible; feasibility and return are distinct outcomes.}{图\ref{fig:paired}在相同冲击下逐情景配对收益。金色菱形表示仅稳健方案保持可行的情景；可行性和收益是不同的评价结果。}
+\bi{Both panels use the same 200 simulated shocks, not independent samples. Blue lines denote equal return rather than fitted regressions; shapes distinguish feasibility. Infeasible returns exclude financing and emergency penalties.}{两面板使用相同200个模拟冲击，并非独立样本。蓝线表示等收益而非拟合回归，形状区分可行状态；不可行方案的收益未扣除融资及应急处罚。}
+\bodyfig{paired}{\bi{Paired portfolio returns under held-out shocks}{留出冲击下的组合配对收益}}
+\subpart{Budget Risk and Robustness}{预算风险与稳健性分析}
+\bi{The held-out comparison in Figure~\ref{fig:paired} tests a wider cost envelope and an alternative response shape, rather than repeating only the scenarios used to optimize. The budget reoptimization results reported in the sensitivity section show whether a spending change alters the actual selected menu. Together these checks assess decision stability and feasibility beyond the nominal score gain.}{图\ref{fig:paired}的留出比较扩大成本范围并替换响应函数形式，避免仅重复优化时使用的情景。灵敏度分析部分的预算重新优化数值进一步检验支出变化是否改变实际项目选择；两类检查共同评价名义评分增益之外的决策稳定性与可行性。}\par
+\bi{Robust planning reduces violations from 69\% to 5\%, but greedy search earns more on average with greater budget risk. Regret compares only feasible cases with each scenario's exact optimum; infeasibility is reported separately. Mean return excludes financing and emergency penalties. The 5\% rate is a stress-test observation, not a chance-constraint guarantee. Procurement decisions need contingency reserves or a wider cost envelope.}{稳健规划把违约率由69\%降至5\%；贪心方案平均收益更高，但预算风险更大。后悔值仅将可行方案与各情景精确最优解比较，不可行情形单列；平均收益未扣除融资及应急处罚。5\%是压力测试观察值，不是机会约束保证。实际采购需要预备费或更宽的成本范围。}
+
+
+\pagepart{Model Validation and Sensitivity Analysis}{模型检验与灵敏度分析}
+\subpart{Validation under Different Operating Conditions}{不同运营情景下的模型检验}\par
+\bi{Average test errors do not reveal how the assessment responds to a weak capability or a service disruption. We vary capability balance, workload, outages, investment, and missingness in separate scenarios, then check whether the score changes in a way consistent with its definition.}{平均测试误差不能说明评价在某项能力薄弱或服务中断时如何响应。本文分别改变能力均衡程度、负荷、故障、投入和缺失情况，检查评分变化是否符合其定义。}\par
+\bi{Figure~\ref{fig:response} shows the fitted CRM response to people and process capability with technology fixed at the estimated final capability, $a_T=0.5384$, and workload fixed at zero. A shared outage lowers operational reliability over the same capability grid. This slice differs from the balanced $(.7,.7,.7)$ profile used in the scenario table below.}{图\ref{fig:response}展示拟合CRM对人员与流程能力的响应，技术能力固定为估计期末值$a_T=0.5384$，负荷固定为零。相同能力网格下，共享故障降低运营可靠性。该切片不同于下表使用的均衡$(.7,.7,.7)$画像。}
+\bi{Each panel contains 100 frozen-model predictions, not new observations, on the same 0--100 scale. White contours mark score levels; the final profile scores 41.96 without an outage and 19.18 with one.}{每面板包含100个冻结模型预测，并非新增观测，两图使用相同0--100色阶。白色等值线表示分数；标记的期末画像无故障分41.96、故障分19.18。}
+\bodyfig{response}{\bi{Capability--reliability response under shared outages}{共享故障下的能力—可靠性响应}}\par
+\bi{The following scenario contrasts are designed checks, not standardized rankings of different ports. Diminishing investment gains are already specified by the response function and summarized numerically.}{下表的情景对比属于设计检验，不能视为不同港口的标准化排名。投入边际递减已由响应函数规定，并以数值汇总呈现。}
+\par\begin{table}[!htbp]\small\caption{\bi{Scenario questions and observed model behavior.}{情景问题与观察到的模型行为。}}
+\begin{tabularx}{\linewidth}{lYY}\toprule
+&\bi{Scenario and test}{情景与检验}&\bi{Result and implication}{结果及含义}\\\midrule
+1&\bi{Balanced $(.7,.7,.7)$}{均衡能力画像$(.7,.7,.7)$}&\bi{65.32 reference points; comparison anchor}{参考分65.32，作为比较基准}\\
+2&\bi{Strong technology, weak process $(.7,.9,.3)$}{技术强、流程弱$(.7,.9,.3)$}&\bi{52.82; better hardware does not fully offset governance gaps}{52.82，技术优势不能完全补偿治理缺口}\\
+3&\bi{Training not yet effective $(.45,.7,.7)$}{培训尚未见效$(.45,.7,.7)$}&\bi{55.15; separately validate delayed forecasts}{55.15，另以时序实验检验延迟预测}\\
+4&\bi{Peak workload $c=1$}{旺季负荷$c=1$}&\bi{Operational score 53.69; reference score stays 65.32}{运营分53.69，参考分仍65.32}\\
+5&\bi{Shared outage $o=1$}{共享故障$o=1$}&\bi{Operational score 36.45; both chains deteriorate}{运营分36.45，两条链同时下降}\\
+6&\bi{Increasing training investment}{增加培训投入}&\bi{First-unit gain .0881, third-unit gain .0178}{第一单位改善.0881，第三单位.0178}\\
+7&\bi{Failure-selective missing logs}{失败相关日志缺失}&\bi{Month 40 process interval [37.92\%,55.42\%]}{第40月流程区间[37.92\%,55.42\%]}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{The shared-outage test is especially useful: reference maturity isolates capability for comparison, but service reliability can collapse immediately. A customer dashboard should therefore display current incident status before the reference score. The weak-governance comparison also explains why our portfolio does not allocate all resources to technology even when technical products are easier to purchase.
+
+These are designed contrasts. They test whether the model responds in the intended direction, not whether the corresponding score levels are realistic for a specific port. The model would require external outcome calibration before those values support a contract or public assurance claim.}{共享故障检验说明：参考成熟度用于隔离能力差异，但运营可靠性可能立即下降。因此，客户仪表盘应先显示当前事故状态，再显示参考评分。弱治理对比也解释了为什么优化方案不会因为技术产品更易采购，就把全部资源投向技术。
+
+这些情景是人为设计的对照，用于检验模型是否沿预期方向响应，不证明分数水平对某个具体港口真实有效。在用于合同或公开保证之前，仍需外部业务结果校准。}
+
+
+\subpart{Sensitivity to Budget and State Noise}{预算与状态噪声的灵敏度分析}\par
+\bi{A decision is more sensitive than a smooth score when discrete project levels cross budget boundaries. At 80\% or 90\% of the original budgets, the robust portfolio changes from $(1,0,0,3,1)$ to $(1,0,0,2,1)$, and worst net benefit falls to 5.6443 units. A 10\% budget increase does not change the menu; a 20\% increase adds one training unit and raises worst net benefit to 6.0447 units. Budget expansion therefore has a discontinuous, diminishing decision value.}{离散投入跨越预算边界时，决策可能比连续分数更敏感。预算降为原来的80\%或90\%，稳健组合由$(1,0,0,3,1)$变为$(1,0,0,2,1)$，最坏净收益降至5.6443单位。预算增加10\%不改变组合；增加20\%则增加一单位培训，最坏净收益升至6.0447单位。因此，增加预算的决策价值既非连续，也非恒定。}
+\par\begin{table}[!htbp]\centering\small\caption{\bi{Sensitivity to the assumed state-noise standard deviation; other fitted parameters are frozen.}{状态扰动标准差的灵敏度；其余拟合参数固定。}}
+\begin{tabular}{rrrr}\toprule
+\bi{Change}{变化}&$\sqrt Q$&\bi{Test RMSE}{测试RMSE}&\bi{Final reference score}{期末参考分}\\\midrule
+$-20\%$&.064&.0290&42.38\\
+$0\%$&.080&.0284&41.96\\
+$+20\%$&.096&.0285&41.63\\\bottomrule
+\end{tabular}\end{table}\par
+\bi{Small score changes under this one perturbation do not repair the failed interval-coverage test. Sensitivity and calibration answer different questions. The optimization's exponential/piecewise comparison is likewise a structural stress test, not an estimate of real response curvature.}{该单一参数扰动下分数变化较小，不能修复区间覆盖率不足。灵敏度与校准回答不同问题。同样，优化中的指数与分段函数比较属于结构压力测试，不是对实际响应曲率的估计。}
+\subpart{Parameter Sources and Model Calibration}{参数来源与模型校准}
+\bi{The numerical demonstration combines problem facts, methodological references, fitted synthetic parameters, and management assumptions. These sources support different kinds of claims. We identify them explicitly so that an enterprise pilot can replace assumed values without treating them as observed company data.}{数值演示同时使用题目事实、方法文献、模拟拟合参数和管理假设，各类来源能够支持的结论不同。区分这些来源，可使企业试点明确哪些数值需要替换，避免将假设当作公司实测结果。}\par
+\par\begin{table}[!htbp]\small\caption{\bi{Sources and what each can legitimately support.}{来源及其能够支持的结论。}}
+\begin{tabularx}{\linewidth}{YYY}\toprule
+\bi{Evidence class}{证据类别}&\bi{Content used here}{本文使用内容}&\bi{Required before deployment}{部署前所需资料}\\\midrule
+\bi{Problem facts}{题目事实}&\bi{Port workflow; confidentiality; P/T/R requirements}{港口流程、保密约束、P/T/R要求}&\bi{Confirm local scope and deadlines}{确认本地范围与截止要求}\\
+\bi{Public references}{公开文献}&\bi{Quality/provenance concepts; filtering; scoring; robustness}{质量与溯源概念、滤波、评分、稳健性}&\bi{Check applicability and version}{检查适用性与版本}\\
+\bi{Scenario inputs}{情景输入}&\bi{Costs, staffing, response curves, loss, generator coefficients}{成本、人力、响应曲线、损失、生成系数}&\bi{Replace with quotes, pilots, finance records}{替换为报价、试点和财务记录}\\
+\bi{Fitted synthetic parameters}{模拟拟合参数}&\bi{LCF persistence and delays; CRM coefficients}{状态持续性、延迟及业务链系数}&\bi{Refit on internal histories and independent outcomes}{用内部历史与独立结果重估}\\
+\bi{Management decisions}{管理决策}&\bi{Reference mix, recovery floor, risk envelope}{参考结构、恢复下限、风险边界}&\bi{Document owner approval and rationale}{记录责任人批准及理由}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{The first pilot should prioritize reliable failure denominators and recovery evidence. Next, obtain varied action histories to separate onset delay from persistence. Only then calibrate money-valued response curves for procurement. Each parameter record stores its unit, source field, effective date, method, uncertainty range, approver, and version. No expert panel was conducted in this work.}{首轮试点应优先补齐失败分母和恢复证据，再收集具有变化的行动历史，以区分起效延迟与状态持续性；随后才校准采购所需的货币响应曲线。每个参数记录单位、来源字段、生效日期、方法、区间、审批人及版本。本文未实际开展专家咨询。}
+
+\pagepart{Implementation of the Assessment Framework}{评价体系的实施方案}
+\subpart{Staffing and Training}{人员配置与培训}\par
+\bi{A total headcount can conceal an uncovered night shift or a missing specialist skill. We assess staff availability by role, skill, and shift for data engineering, analytics, stewardship, interface operations, and incident response. P2 measures coverage of required cells; P1 and delayed P3 tests check practical competence. For skill $r$ and shift $h$, the workload gap gives}{员工总数可能掩盖夜班无人值守或专门技能缺失。本文按岗位、技能和班次检查数据工程、分析、数据管理、接口运维及事故响应的人员供给。P2衡量必需单元的覆盖，P1及延后的P3检查实操能力。对技能$r$和班次$h$，由工作量缺口计算}
+\begin{equation}
+\mathrm{FTEgap}_{rh}=\max\left\{0,\frac{\mathrm{required\ task\ hours}_{rh}-\mathrm{qualified\ available\ hours}_{rh}}{\mathrm{productive\ hours\ per\ FTE}_{h}}\right\}.
+\end{equation}\par
+\bi{Round and schedule only after accounting for simultaneous shift requirements. A permanent, recurring gap supports hiring; a temporary specialist need supports contracting; an adjacent skill gap supports training when release time and retention are credible. Mixed staffing is often feasible, but its cost, lead time, turnover, and knowledge-transfer obligations belong in the project menu. No defensible number of hires can be calculated from the problem's withheld staffing data.}{考虑班次并发需求后再取整排班。长期重复缺口倾向招聘，短期专业需求倾向外包，邻近技能缺口在可安排脱产和保持能力时倾向培训。混合配置可以纳入候选项目，但成本、周期、离职和知识转移责任必须记录。题目隐去人员数据，无法据此给出有依据的招聘人数。}
+\subpart{Technology Selection and Pilot Testing}{技术选型与试点验证}\par
+\bi{Software specifications and vendor demonstrations do not necessarily predict performance in a port handoff. We compare candidate architectures through the same business acceptance tests: correct logical delivery after retries, recovery within the approved target, interoperable identities, controlled access, traceable records, exportable metadata, and latency at peak workload. T1--T4 measure the service outcomes of those tests.}{软件规格和供应商演示未必能反映实际港口交接表现。本文使用同一组业务验收测试比较候选架构：重试后的逻辑消息交付、目标时间内恢复、身份互通、受控访问、记录溯源、元数据导出和高负荷延迟。T1--T4用于记录相应服务结果。}
+\par\begin{table}[!htbp]\small\caption{\bi{Architecture comparisons the same model can support.}{同一模型支持的架构比较。}}
+\begin{tabularx}{\linewidth}{YYY}\toprule
+\bi{Question}{问题}&\bi{Single suite}{单一套件}&\bi{Multiple products}{多产品组合}\\\midrule
+\bi{Integration effort}{集成成本}&\bi{Test internal semantic consistency}{检验内部语义一致性}&\bi{Test cross-vendor interfaces and identities}{检验跨厂商接口与身份}\\
+\bi{Common failure}{共同故障}&\bi{Model shared outage concentration}{建模共享故障集中风险}&\bi{Model shared network/authentication dependencies}{建模共享网络及认证依赖}\\
+\bi{Exit and migration}{退出与迁移}&\bi{Test full export and restore}{检验完整导出及恢复}&\bi{Test data portability across components}{检验组件间数据可迁移性}\\
+\bi{Economics}{经济性}&\bi{License, migration, operations, training}{许可、迁移、运维、培训}&\bi{Same costs plus interface maintenance}{同项成本加接口维护}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{Start a controlled pilot on one handoff, compare against the current service using the same workload mix, and preserve a rollback path. A vendor's claimed accuracy is not interchangeable with an independently audited C2 rate. Only a verified improvement and a feasible resource plan justify wider rollout.}{先在一类交接上进行受控试点，按相同负荷结构与现有服务比较，并保留回退路径。供应商宣称的准确率不能替代独立审核的C2成功率。只有经验证的改善和可行的资源配置，才能支持扩大部署。}
+
+\subpart{Data Governance and Routine Monitoring}{数据治理与日常监测}\par
+\bi{When data rules change without a responsible owner, errors can recur even after a technical fix. We assign each critical dataset a business owner and technical steward, with a documented purpose, schema, quality rules, retention conditions, and access path. The owner decides business risk, the steward implements controls, and an independent reviewer checks the evidence. Routine monitoring connects those responsibilities to incidents and corrective action.}{数据规则缺少明确责任人时，即使完成技术修复，错误仍可能再次发生。每项关键数据集设置业务责任人和技术管家，并记录用途、结构、质量规则、保留条件和访问路径。责任人作出业务风险决策，管家执行控制，独立审核者复核记录；日常监测将这些职责与事故和整改行动联系起来。}
+\par\begin{table}[!htbp]\small\caption{\bi{Monitoring and response protocol. Thresholds come from approved service commitments.}{监测与响应协议；阈值应来自批准的服务承诺。}}
+\begin{tabularx}{\linewidth}{lYYY}\toprule
+\bi{Frequency}{频率}&\bi{Measure}{测量内容}&\bi{Owner}{责任主体}&\bi{Response}{响应}\\\midrule
+\bi{Daily}{每日}&\bi{Availability, late critical handoffs, missing logs, security events}{可用率、关键交接迟报、日志缺失、安全事件}&\bi{Operations and security}{运营与安全}&\bi{Incident triage; preserve evidence; notify affected users}{事故分级、留证、通知受影响客户}\\
+\bi{Monthly}{每月}&\bi{KPIs, missing bounds, skills, issue closure, C2}{KPI、缺失边界、技能、工单、C2}&\bi{Data owners and HR}{数据责任人与人力}&\bi{Publish versioned report and corrective actions}{发布版本化报告和整改行动}\\
+\bi{Quarterly}{每季}&\bi{Calibration, capability drift, portfolio delivery}{校准、能力漂移、项目交付}&\bi{Model owner and finance}{模型责任人与财务}&\bi{Revalidate; update constraints and budgets}{重检模型，更新约束与预算}\\
+\bi{Annual}{每年}&\bi{Indicator scope, access, retention, recovery}{指标范围、权限、保留、恢复}&\bi{Governance committee}{治理委员会}&\bi{Independent review and redesign where needed}{独立复核，必要时重新设计}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{An incident, a new data schema, a changed contract, a system migration, or calibration deterioration triggers an extra review. Do not wait for the annual cycle. An illustrative review rule is two successive monthly calibration errors exceeding an internally approved tolerance; the tolerance must be calibrated for sample size rather than chosen to make alerts disappear.}{事故、新数据结构、合同变化、系统迁移或校准恶化均触发额外复评，不等待年度周期。可采用连续两月校准误差超过内部批准容忍度的规则，但容忍度必须依据样本量校准，不能为减少告警随意放宽。}
+\subpart{Implementation Schedule}{分阶段实施计划}
+\bi{The existing experiment uses 48 months of history, whereas a new assessment starts with inconsistent definitions and limited records. We separate the first 90 days of measurement setup from the later fitting of dynamic models. Each stage establishes the evidence needed for the next:}{现有实验使用48个月历史，新开展的评价则可能面临定义不一致、记录不足的问题。本文将最初90天的测量建制与后续动态模型拟合分开，前一阶段取得的资料作为下一阶段依据：}\par
+\begin{enumerate}
+\item \bi{\textbf{Days 1--30: establish scope.} Inventory the two chains, critical fields, owners, and service commitments. Create expected-event registries and access permissions.}{\textbf{第1--30天：确定范围。} 盘点两条业务链、关键字段、责任人和服务承诺，建立预期事件清单及访问权限。}
+\item \bi{\textbf{Days 31--60: run a measurement pilot.} Compare source documents with logs, quantify unknowns, test recovery, and identify uncovered skill-slots.}{\textbf{第31--60天：测量试点。} 对照原始凭据与日志，量化未知记录，开展恢复测试，识别技能岗位缺口。}
+\item \bi{\textbf{Days 61--90: approve provisional decisions.} Publish an ungraded baseline with uncertainty; gather vendor quotes and staffing costs; select a reversible pilot portfolio.}{\textbf{第61--90天：批准暂定决策。} 发布带不确定性的连续基准分，收集报价与人员成本，选择可回退的试点组合。}
+\item \bi{\textbf{After sufficient history: fit dynamic models.} The 48-month experiment does not imply a 90-day pilot can estimate all delays. Use direct KPI bounds until enough varied observations accumulate.}{\textbf{历史数据充分后：拟合动态模型。} 48个月实验不意味着90天试点足以估计全部滞后；在具有足够变化的数据积累前，使用直接KPI与边界。}
+\end{enumerate}\par
+\bi{The customer dashboard shows current incident status, measured handoff reliability, uncertainty, reporting coverage, unresolved issues, and the date of independent review. Commercially sensitive personnel and financial fields remain internal.}{客户仪表盘显示当前事故状态、测得的交接可靠性、不确定性、记录覆盖率、未解决问题及独立复核日期。敏感人员和财务字段保留在企业内部。}
+
+\pagepart{Model Extension}{模型推广}
+\subpart{Application to Ports of Different Sizes}{不同规模港口的适用性}\par
+\bi{A small port should not be penalized for lacking technology it does not need. Retain the people--technology--process structure, denominator rules, and chain-success definition, but recalibrate required service periods, staffing matrices, deadlines, workload controls, and costs. A small port may collect monthly audit samples and use a simple catalog; a large port may need continuous event feeds, segmented ownership, and shared-platform risk analysis. Both must demonstrate the same underlying ability to deliver agreed information.}{小港口不应因缺少并不需要的技术而受惩罚。保留人员—技术—流程结构、分母规则和业务链成功定义，重新校准服务时段、技能矩阵、截止时间、负荷控制及成本。小港口可采用月度抽样和简易目录，大港口可能需要连续事件流、分级责任与共享平台风险分析；两者均应证明其具备履行约定信息服务的能力。}\par
+\bi{Raw success rates can differ solely because one port handles more complex cargo or night-shift work. A common reference composition removes that part of the difference. For cargo/shift strata $h$, standardize each port $b$ by}{不同港口的原始成功率可能仅因复杂货种或夜班业务占比不同而产生差异。共同参考结构可调整这一影响。对货种、班次等分层$h$，将港口$b$标准化为}
+\begin{equation}p_b^{\rm std}=\sum_h\pi_h^{\rm ref}p_{bh},\qquad \sum_h\pi_h^{\rm ref}=1.
+\end{equation}\par
+\bi{For example, two equally capable ports have 0.95 success on routine tasks and 0.75 on complex tasks. A 90/10 task mix gives 0.93, whereas a 50/50 mix gives 0.85. At a common 70/30 reference mix, both score 0.89. The eight-point raw difference is workload composition, not evidence of a capability gap. This arithmetic illustration shows why standardization is needed; it does not estimate any real port.}{例如，两个能力相同的港口在常规任务上成功率0.95，复杂任务上0.75。90/10结构给出0.93，50/50结构给出0.85；使用共同70/30参考结构后，两者均为0.89。原始八个百分点差异来自任务结构，并非能力差异。该算例用于解释标准化，不估计任何真实港口。}
+\subpart{Application to Trucking Companies}{卡车运输企业的应用}
+\bi{The port handoff continues into dispatch and delivery, where mismatched identifiers or status definitions can recreate the same information failures. Trucking companies can use compatible event definitions, while replacing port-specific stages and deadlines with their own. The correspondence is shown below.}{港口交接继续连接调度和配送，编号或状态定义不一致会在运输环节再次造成信息失效。卡车运输企业可以采用兼容的事件定义，同时按自身业务替换港口特有环节与截止要求，具体对应关系如下。}\par
+\par\begin{table}[!htbp]\small\caption{\bi{Mapping the port framework to trucking.}{从港口到卡车运输的映射。}}
+\begin{tabularx}{\linewidth}{YYY}\toprule
+\bi{Port element}{港口要素}&\bi{Trucking counterpart}{运输对应项}&\bi{Common test}{共同测试}\\\midrule
+\bi{Arrival and inland schedule}{到港与内陆计划}&\bi{Order, dispatch, appointment}{订单、调度、预约}&\bi{Timely consistent identifiers}{编号一致且及时}\\
+\bi{Yard location and release}{堆场定位与放行}&\bi{Vehicle location and pickup authority}{车辆位置与提货授权}&\bi{Current location and authorized release}{位置有效且授权正确}\\
+\bi{Vessel loading confirmation}{装船确认}&\bi{Proof of delivery}{交付证明}&\bi{Complete, verifiable closing record}{闭环凭据完整可核验}\\
+\bi{Port data roles}{港口数据岗位}&\bi{Dispatcher, driver, analyst, steward}{调度、司机、分析师、管家}&\bi{Role-specific practical competence}{岗位实操能力}\\\bottomrule
+\end{tabularx}\end{table}\par
+\bi{The truck chain is order receipt $\to$ dispatch $\to$ location/ETA update $\to$ pickup or delivery $\to$ confirmed receipt. Refit its response coefficients and deadlines; do not copy the port's 0.6/0.4 weights or score thresholds. Sharing the metric benefits ICM through better arrival planning, fewer conflicting status records, faster attribution of data errors, and a common basis for service reviews.
+
+At the port--carrier boundary, both parties confirm the same handoff identifier and timestamps. Joint success must be measured from matched records: multiplying separately reported port and carrier success rates assumes independence and can conceal common platform failures. Each party retains its own sensitive records while sharing authorized exception summaries.}{运输业务链为订单接收$\to$调度$\to$位置与预计到达更新$\to$提货或交付$\to$签收确认。必须重估响应系数与截止要求，不能照搬港口0.6/0.4权重或评分阈值。客户也采用兼容指标后，可以改善ICM到达计划、减少状态冲突、加快错误归因，并为服务复盘提供共同依据。
+
+港口与承运商在边界共同确认业务编号和时间戳。联合成功应由匹配记录直接测量；把各自报告的成功率相乘隐含独立性，可能掩盖共享平台故障。双方保留敏感明细，仅共享获授权的异常汇总。}
+
+\ifdefined\ChineseVersion
+\par\noindent\begin{minipage}{\linewidth}
+\else\clearpage\fi
+\section{\bi{Letter to ICM Corporation's customers}{致ICM公司客户的一封信}}
+\noindent\textbf{\bi{To}{致}:} \bi{ICM Corporation's port users}{ICM公司港口用户}\\
+\textbf{\bi{From}{发件人}:} \bi{The D\&A assessment consulting team}{数据与分析系统评估咨询团队}\\
+\textbf{\bi{Subject}{主题}:} \bi{Making your cargo information more reliable and accountable}{让货运信息更可靠、更可追责}\\
+\textbf{\bi{Date}{日期}:} \bi{September 19, 2026; retrospective study of the 2022 case}{2026年9月19日；2022年案例回顾研究}
+\par\medskip
+\noindent\bi{Dear Port Users,}{尊敬的港口用户：}
+
+\bi{You depend on accurate arrival information, customs status, container locations, and pickup schedules. A delay or contradiction in one of these records can disrupt your own operations. We propose a measurement and improvement program that makes these failures visible and gives ICM a clear process for correcting them.
+
+The program assesses whether employees have the skills needed for their jobs, whether technology delivers information when required, and whether data have accountable owners and controlled access. It also checks the complete handoff, from the first notice to the final confirmed transfer. A system will not receive credit simply because it has purchased new software.
+
+Each expected handoff will be counted, including those with missing or late records. Independent checks will compare selected records with their underlying evidence. Reports will distinguish verified results from unknown outcomes, show current service incidents, and explain when a measurement has been revised. This allows you to understand both performance and the limits of the available evidence.
+
+Your information will be used only for approved purposes. Access responsibilities, data retention, and authorized sharing will be documented. Confidential employee details and commercial records will remain within the appropriate organization. Public or customer reports will use approved summaries while preserving an internal audit trail.
+
+When the evidence reveals a gap, ICM can compare training, staffing, governance, integration, and recovery improvements under its actual budget and operating constraints. Proposed changes will be tested on a limited scale, with clear responsibilities and a rollback path. We recommend checking current service conditions daily, reviewing performance monthly, and reassessing the improvement plan quarterly.
+
+Carriers can participate through agreed shipment identifiers, compatible status definitions, and jointly confirmed timestamps. These shared measures should help the port and its customers identify where a handoff failed and resolve discrepancies without exchanging unnecessary confidential records.
+
+This study has not inspected ICM's confidential systems. Its numerical examples are simulations, so we cannot certify the company's present maturity or promise a particular improvement. The proposed approach earns confidence through evidence: disclose what has been measured, acknowledge what remains uncertain, and track whether corrective actions work.
+
+We recommend that ICM publish an initial measured baseline after an independently reviewed pilot and provide customers with a clear route for reporting inaccurate or delayed information. Your feedback should become part of the same tracked correction process.
+
+\noindent Sincerely,\\The D\&A assessment consulting team
+}{您依赖准确的到港信息、海关状态、集装箱位置与提货安排开展业务。任何一条记录的延误或矛盾，都可能影响后续运输。我们建议建立一套测量与改进机制，使这些问题能够被发现、追踪并纠正。
+
+该机制检查员工是否具备岗位所需技能、技术能否按时交付信息，以及数据是否具有明确责任人和受控访问流程。同时，它评价从首条通知到最终交接确认的完整过程。系统不会仅因采购新软件而获得较高评价。
+
+每一项预期交接都应计入统计，包括缺失与迟报记录。独立审核将抽取部分记录，与原始凭据核对。报告应区分已核实结果与未知结果，显示当前服务事故，并说明何时修订过测量值，使您能够理解实际表现及证据的局限。
+
+您的信息仅用于获准用途。企业应明确访问责任、保留期限和授权共享范围。员工敏感信息与商业明细留在适当组织内部，面向客户的报告使用获准汇总，同时保留内部审计链。
+
+当证据显示存在缺口时，ICM可以根据实际预算和运营约束，比较培训、人员配置、治理、系统集成和恢复能力等改进方案。变更应先进行有限范围试点，明确责任并保留回退路径。我们建议每日检查当前服务状态，每月复核表现，每季度重新评价改进计划。
+
+承运商可以通过共同认可的货运编号、兼容状态定义与双方确认的时间戳参与测量。这些共同指标有助于港口和客户定位交接失败发生的环节，在无需交换多余保密记录的情况下解决差异。
+
+本研究尚未检查ICM的保密系统，文中数值例子均为模拟，因此不能认证公司的现有成熟度，也不能保证某个具体改善幅度。可信度应来自证据：说明已经测量的内容，承认仍存在的不确定性，并持续检查整改是否有效。
+
+我们建议ICM在经过独立复核的试点结束后，发布第一份真实测得的基准报告，并为客户提供清晰的问题反馈渠道。您反馈的不准确或迟报信息，应纳入同一套可追踪的整改流程。
+
+\noindent 此致\\数据与分析系统评估咨询团队
+}
+
+\ifdefined\ChineseVersion\end{minipage}\par\fi
+\clearpage
+\renewcommand{\refname}{\bi{References}{参考文献}}
+\addcontentsline{toc}{section}{\bi{References}{参考文献}}
+\begin{thebibliography}{99}
+\bibitem{comap} COMAP. \emph{2022 ICM Problem D: Data Paralysis? Use Our Analysis!} 2022. Problem statement supplied with this project, pp. 1--3.
+\bibitem{ports} I. de la Pe\~na Zarzuelo, M. J. Freire Soeane, and B. L\'opez Berm\'udez. Industry 4.0 in the port and maritime industry: A literature review. \emph{Journal of Industrial Information Integration}, 20:100173, 2020. \url{https://doi.org/10.1016/j.jii.2020.100173}.
+\bibitem{dqv} R. Albertoni and A. Isaac, eds. \emph{Data on the Web Best Practices: Data Quality Vocabulary}. W3C Working Group Note, 15 December 2016. \url{https://www.w3.org/TR/vocab-dqv/}.
+\bibitem{prov} P. Groth and L. Moreau, eds. \emph{PROV-Overview: An Overview of the PROV Family of Documents}. W3C Working Group Note, 30 April 2013. \url{https://www.w3.org/TR/prov-overview/}.
+\bibitem{sarkka} S. S\"arkk\"a. \emph{Bayesian Filtering and Smoothing}. Cambridge University Press, 2013. \url{https://doi.org/10.1017/CBO9781139344203}.
+\bibitem{scoring} T. Gneiting and A. E. Raftery. Strictly proper scoring rules, prediction, and estimation. \emph{Journal of the American Statistical Association}, 102(477):359--378, 2007. \url{https://doi.org/10.1198/016214506000001437}.
+\bibitem{robust} D. Bertsimas and M. Sim. The price of robustness. \emph{Operations Research}, 52(1):35--53, 2004. \url{https://doi.org/10.1287/opre.1030.0065}.
+\bibitem{nist} National Institute of Standards and Technology. \emph{Framework for Improving Critical Infrastructure Cybersecurity}, Version 1.1, 2018. \url{https://doi.org/10.6028/NIST.CSWP.04162018}.
+\bibitem{style-framework} Team 2516219. 2025 ICM Problem D solution, p. 5, Fig. 3. Visual framework reference; no numerical data reused.
+\bibitem{style-coverage} Team 2304962. 2023 ICM Problem D solution, p. 15, Fig. 12. Icon-matrix style reference; no numerical data reused.
+\bibitem{style-state} Team 2106028. 2021 ICM Problem D solution, Fig. 14, ``Time series of components.'' Time-series style reference; no numerical data reused.
+\bibitem{style-diagnostics} Team 2417831. 2024 ICM Problem D solution, p. 8, Fig. 4. Paired-series and interval style reference; no numerical data reused.
+\bibitem{style-portfolio} Team 34985. 2015 ICM Problem D solution, p. 9, Fig. 4. Trade-off plot style reference; no numerical data reused.
+\bibitem{style-paired} Team 2429211. 2024 ICM Problem D solution, p. 11, Fig. 6. Paired-scatter layout reference; equality lines here are not regressions.
+\bibitem{style-response} Team 56632. 2017 ICM Problem D solution, p. 18, Fig. 9. Two-parameter response-map style reference; no numerical data reused.
+\bibitem{tabler} Tabler. \emph{Tabler Icons}. MIT-licensed SVG components, adapted in framework and indicator figures. \url{https://tabler.io/icons}.
+\end{thebibliography}\par
+\bi{References support methods and concepts, not the numerical scenario assumptions. The NIST citation uses its 2018 version for the 2022 case. Visual references for Figures 1--7 are \cite{style-framework,style-coverage,style-state,style-diagnostics,style-portfolio,style-paired,style-response}, respectively; all plotted values are from this study. Semantic icons in Figures~\ref{fig:framework} and \ref{fig:coverage} use adapted Tabler components\cite{tabler}; sources and license notices accompany the figure assets.}{文献支持方法与概念，不支持人为设置的情景参数。NIST引用使用适合2022案例的2018年版本。图1--7的视觉风格分别参考\cite{style-framework,style-coverage,style-state,style-diagnostics,style-portfolio,style-paired,style-response}，绘图数值均来自本文。图\ref{fig:framework}与\ref{fig:coverage}的语义图标采用改编的Tabler组件\cite{tabler}，素材随附来源与许可声明。}
+\pagepart{Reproducibility and AI-use disclosure}{可复现性与AI使用说明}\par
+\bi{The archive includes complete code, raw synthetic records, fitted parameters, tables, and vector figures. Run \texttt{python}\,\path{code/run_models.py} and \texttt{python}\,\path{code/export_tables.py}, then compile both LaTeX entry points using the supplied build script. Random seed 2022 and dependency versions are recorded; \path{code/verify_results.py} checks numerical consistency. The generating and fitted parameters remain distinct in code and saved results.}{压缩包包含完整代码、模拟原始记录、拟合参数、结果表和矢量图。先运行\texttt{python}\,\path{code/run_models.py}与\texttt{python}\,\path{code/export_tables.py}，再用附带脚本编译两个LaTeX入口。随机种子固定为2022，依赖版本已记录；\path{code/verify_results.py}用于核对数值一致性。代码和结果文件分别保存生成参数与拟合参数。}\par
+\bi{OpenAI Codex assisted with model analysis, source lookup, code, bilingual drafting, and layout. Numerical claims come from executed experiments, including unsuccessful checks. The user supplied the problem, initial framework, layout example, and revised writing requirements. No corporate system access, expert interviews, certification, or independent peer review occurred. The study was prepared on September 19, 2026, and this disclosure counts toward the page limit.}{OpenAI Codex辅助完成模型分析、文献检索、代码、中英文写作及排版。数值来自实际执行的实验，并保留未通过的检验结果。用户提供赛题、初始思路、排版样例及本次写作约束。本文未访问企业系统，未开展专家访谈、外部认证或独立同行评审；编制日期为2026年9月19日，本说明计入页数限制。}
+
+\pagepart{Strengths and Limitations}{模型评价}\par
+\bi{The framework has four practical strengths. First, requirement coverage links every selected indicator to a business need, while mandatory governance and recovery checks remain protected. Second, the three core models form a traceable chain from audit records to capability states, service probabilities, and feasible investments. Third, explicit delays, diminishing returns, and quarterly constraints make the recommended menu operationally interpretable. Fourth, saved code, source counts, comparison models, and sensitivity results make both versions reproducible. Two limitations remain: the synthetic scenarios and finite project menu cannot fully represent the diversity of real ports; and the current uncertainty estimates require further calibration, as shown by 66.7\% state-interval coverage and 5\% budget violations outside the planning envelope. The next deployment step is therefore an independently audited enterprise pilot, using real event records and cost data to recalibrate the same framework.}{本文模型具有四方面优势：其一，指标由业务需求出发筛选，在降低采集成本的同时保留治理与恢复等强制检查；其二，三个核心模型形成“审核记录—能力状态—服务概率—资源决策”的可追溯链条，便于解释评分与投资依据；其三，显式纳入实施滞后、边际收益递减和分期资源约束，使方案更贴近实际管理过程；其四，完整代码、原始计数、对比模型与灵敏度结果均可复现，中英文稿使用相同数值来源。模型的局限主要有两点：一是模拟场景和有限项目组合尚不能全面覆盖真实港口的业务差异；二是不确定性仍需校准，表现为状态区间覆盖率66.7\%，以及规划边界之外5\%的预算违约率。因此，实际部署应先开展独立审核的企业试点，以真实事件记录和成本数据重新校准模型。}
+
+\end{document}

@@ -1,0 +1,128 @@
+{
+  "source_commit": "919f15e91438c3472fd1817aa8b7eca774721f30",
+  "unchanged_source_hashes": {
+    "data\\indicator_coverage.csv": "965d47ec3014cbb6a0366a143960475fe80f206b0f027618275867bfe676cbb7",
+    "data\\kpi_counts.csv": "820238845741de8d6754bcd1f7f4639009da6c02df38956046a26609151e3e5b",
+    "data\\synthetic_audits_raw.csv": "e0c0f7a138a93e70f393cf97a3a2ad159f3066df62ce6542f3ffac7f249352a6",
+    "data\\synthetic_pilot_profiles.csv": "c27dbb7345caac4e9d85a996702db1833db28d3c3d3ada023434d5516a47c2b1",
+    "results\\budget_sensitivity.csv": "c2aff5be022ecc05f15ab39773b238f05acac9f1be8f007df244c3c3dc5c3aef",
+    "results\\calibration.csv": "6f5cf40b04b4d316272f1d6012f86ecf28391d08da6f30327143e7017b0fa6be",
+    "results\\comparison_table.tex": "8fa37ce813d7de256bafc1b7666d0a466afd9539522bcbfd27f4f98bd5aa0dca",
+    "results\\heldout_decisions.csv": "ff250bda469f793e53843dfe004c3f4f2fcc246cb7473a3b2585b52de39166aa",
+    "results\\heldout_table.tex": "999db807999fd54ab0e5bc71e25d6a9f0ed3195a81bf12efbe18c3a04481779c",
+    "results\\metrics.json": "d8398522bea2f1dfdd2ad1948eaa4397111659eadfac44914a3494b1d2f469a7",
+    "results\\metrics.tex": "ee379595e7284a3ec4bc1c3fdaba163818c021ca83ea91ace76ce86cd52a6376",
+    "results\\optimal_plan.csv": "ea45bd6c6b799a75b6e202065044488ac50ccbfb5d52d4c91b9d570db7ad05e1",
+    "results\\plan_comparison.csv": "bc8458274f56c58b898ba93d64b4aafbbbf01f0382e28ba7a39dfca469f544dd",
+    "results\\plan_table.tex": "da7679fbcc9b9f67c56971554521c343fd5457255dbc00da30fc160492759e76",
+    "results\\state_estimates.csv": "fed18dde7c1c3d2b07b12713619145f4111124f893cbadb40373d8d48a99c114",
+    "code\\export_tables.py": "59d7788b4c00f2036773ad743cb2605f107f06de2d1eb1daa75c67cce633906e",
+    "code\\requirements.txt": "200cfd0f806d78c5a9dec62434c82d2d00e5e244c6763d5436c9be52dcc96f39",
+    "code\\run_models.py": "d8c2ee1f0dfcd887e4fcbd384d3cbed48c56610a45d73a294cf54607fc52ffa0",
+    "code\\verify_results.py": "815fd3b9c7153d6fd91022c6769acd67bdec69901d8dcdbd9985a2d9f50515ad"
+  },
+  "original_numeric_assertions": "PASS",
+  "pdfs": {
+    "en": {
+      "sha256": "2d6dbf6f8a63c08d24f1bfaae90592fd49eab6075702107d59973d6eff5621e3",
+      "pages": 25,
+      "figure_labels": [
+        [
+          "framework",
+          "1",
+          "4"
+        ],
+        [
+          "coverage",
+          "2",
+          "6"
+        ],
+        [
+          "state",
+          "3",
+          "10"
+        ],
+        [
+          "diagnostics",
+          "4",
+          "11"
+        ],
+        [
+          "portfolio",
+          "5",
+          "17"
+        ],
+        [
+          "paired",
+          "6",
+          "18"
+        ],
+        [
+          "response",
+          "7",
+          "18"
+        ]
+      ],
+      "fonts_embedded": true,
+      "no_overflow_or_unresolved_refs": true,
+      "remaining_log_warnings": [
+        "LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <9.5> not available",
+        "LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <9.5> not available",
+        "LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <9.5> not available",
+        "Underfull \\hbox (badness 4739) in paragraph at lines 612--613",
+        "Underfull \\hbox (badness 1275) in paragraph at lines 612--613",
+        "Underfull \\hbox (badness 1014) in paragraph at lines 626--626",
+        "Underfull \\hbox (badness 6110) in paragraph at lines 626--626",
+        "LaTeX Font Warning: Size substitutions with differences"
+      ]
+    },
+    "zh": {
+      "sha256": "c626181c2c95f3db4e8ce1dbd810e1a737343434698248ea44aac7d48dfdbfa5",
+      "pages": 22,
+      "figure_labels": [
+        [
+          "framework",
+          "1",
+          "4"
+        ],
+        [
+          "coverage",
+          "2",
+          "6"
+        ],
+        [
+          "state",
+          "3",
+          "10"
+        ],
+        [
+          "diagnostics",
+          "4",
+          "10"
+        ],
+        [
+          "portfolio",
+          "5",
+          "15"
+        ],
+        [
+          "paired",
+          "6",
+          "16"
+        ],
+        [
+          "response",
+          "7",
+          "17"
+        ]
+      ],
+      "fonts_embedded": true,
+      "no_overflow_or_unresolved_refs": true,
+      "remaining_log_warnings": [
+        "Underfull \\hbox (badness 4739) in paragraph at lines 612--613",
+        "Underfull \\hbox (badness 1275) in paragraph at lines 612--613"
+      ]
+    }
+  },
+  "submission_boundary": "Practice manuscript; UNASSIGNED team number intentionally retained; simulated data, not an empirical certification."
+}
